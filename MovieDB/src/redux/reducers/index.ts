@@ -1,5 +1,7 @@
+import filmsReducer from './filmsReducer';
+
 const rootReducer = {
-  // add reducer
+  films: filmsReducer,
 };
 
 export default rootReducer;
