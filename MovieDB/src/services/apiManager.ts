@@ -3,17 +3,20 @@ export enum URLType {
 }
 
 export enum Domain {
-  movieDB = 'api.themoviedb.org/',
+  movieDB = 'api.themoviedb.org/3/',
 }
 
 export enum RequestType {
   fetchTrendingDefault,
+  searchFilms,
 }
 
 const getRequestService = (requestType: RequestType) => {
   switch (requestType) {
     case RequestType.fetchTrendingDefault:
       return 'trending/';
+    case RequestType.searchFilms:
+      return 'search/movie/';
     default:
       return '';
   }
@@ -25,6 +28,8 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
   switch (requestType) {
     case RequestType.fetchTrendingDefault:
       return serviceType + 'all/week';
+    case RequestType.searchFilms:
+      return '';
     default:
       return '';
   }
@@ -40,6 +45,7 @@ const getContentType = (requestType: RequestType) => {
 const getRequestType = (requestType: RequestType) => {
   switch (requestType) {
     case RequestType.fetchTrendingDefault:
+    case RequestType.searchFilms:
       return 'GET';
   }
 };
@@ -51,7 +57,7 @@ const needAuthorization = (requestType: RequestType) => {
   }
 };
 
-const createBody = (requestType: RequestType, body: Object | undefined) => {
+const createBody = (requestType: RequestType, body?: Object | undefined) => {
   switch (requestType) {
     default:
       return JSON.stringify(body);
