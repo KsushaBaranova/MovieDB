@@ -1,8 +1,9 @@
-import {TrendingFilmResponse} from '../interfaces';
+import {SearchingFilmResponse, TrendingFilmResponse} from '../interfaces';
 import {request, RequestType} from './apiManager';
 
 export interface FilmApiInterface<T> {
   fetchTrendingDefault(): Promise<T>;
+  searchFilms(query: object): Promise<T>;
 }
 
 class FilmApi<T> implements FilmApiInterface<T> {
@@ -14,6 +15,14 @@ class FilmApi<T> implements FilmApiInterface<T> {
       token: this.token,
     });
   }
+
+  async searchFilms(query: object): Promise<T> {
+    return request<T>(RequestType.searchFilms, {
+      token: this.token,
+      urlParams: query,
+    });
+  }
 }
 
 export const filmApi = new FilmApi<TrendingFilmResponse>();
+export const searchApi = new FilmApi<SearchingFilmResponse>();
