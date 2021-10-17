@@ -12,7 +12,7 @@ import {fetchTrendingDefault} from '../redux/actions/async/fetchTrendingDefault'
 
 const TrendingScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
-  const trendingFilms = useAppSelector(state => state.films.items);
+  const trendingFilms = useAppSelector(state => state.films.trending);
   const [valueMediaType, setValueMediaType] = useState('all');
   const [valueTimeWindow, setValueTimeWindow] = useState('week');
 
@@ -68,7 +68,8 @@ const TrendingScreen: React.FC<{}> = () => {
             />
           </View>
         </View>
-      }>
+      }
+      styleHeight={styles.heightListTrendingStyle}>
       <FlatList
         keyExtractor={(_, index) => String(index)}
         style={styles.flatListStyle}
@@ -108,6 +109,9 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  heightListTrendingStyle: {
+    height: '85%',
   },
 });
 

@@ -3,22 +3,27 @@ import {FilmsState} from '../../interfaces';
 import {fetchTrendingDefault} from '../actions/async/fetchTrendingDefault';
 import {searchFilms} from '../actions/async/searchFilms';
 
-const initialState: FilmsState = {items: [], loading: false, error: null};
+const initialState: FilmsState = {
+  trending: [],
+  search: [],
+  loading: false,
+  error: null,
+};
 
 export const filmsSlice = createSlice({
   name: 'films',
   initialState,
   reducers: {
     emptyList: state => {
-      state.items = [];
+      state.search = [];
     },
   },
   extraReducers: builder => {
     builder.addCase(fetchTrendingDefault.fulfilled, (state, action) => {
-      state.items = action.payload;
+      state.trending = action.payload;
     });
     builder.addCase(searchFilms.fulfilled, (state, action) => {
-      state.items = action.payload;
+      state.search = action.payload;
     });
   },
 });
