@@ -27,7 +27,7 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
 
   switch (requestType) {
     case RequestType.fetchTrendingDefault:
-      return serviceType + 'all/week';
+      return serviceType + params[0];
     case RequestType.searchFilms:
       return serviceType;
     default:

@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ListRenderItemInfo} from 'react-native';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {ItemType} from 'react-native-dropdown-picker';
 import {Stack} from 'react-native-spacing-system';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
+import Dropdown from '../components/Dropdown/Dropdown';
 import FilmCell from '../components/FilmCell/FilmCell';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {FilmModel} from '../interfaces';
@@ -11,10 +13,23 @@ import {fetchTrendingDefault} from '../redux/actions/async/fetchTrendingDefault'
 const TrendingScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
   const trendingFilms = useAppSelector(state => state.films.items);
+  const [valueMediaType, setValueMediaType] = useState('all');
+  const [valueTimeWindow, setValueTimeWindow] = useState('week');
+
+  const mediaType: Array<ItemType> = [
+    {label: 'all', value: 'all'},
+    {label: 'movie', value: 'movie'},
+    {label: 'tv', value: 'tv'},
+  ];
+
+  const timeWindow: Array<ItemType> = [
+    {label: 'day', value: 'day'},
+    {label: 'week', value: 'week'},
+  ];
 
   useEffect(() => {
-    dispatch(fetchTrendingDefault());
-  }, [dispatch]);
+    dispatch(fetchTrendingDefault([`${valueMediaType}/${valueTimeWindow}`]));
+  }, [dispatch, valueMediaType, valueTimeWindow]);
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {
     const {item} = itemInfo;
@@ -38,7 +53,22 @@ const TrendingScreen: React.FC<{}> = () => {
       headerProps={{
         title: 'Trending',
       }}
-      styleHeight={styles.heightListTrendingStyle}>
+      prepearComponent={
+        <View style={styles.viewPrepearComponent}>
+          <View style={styles.viewDropdownStyle}>
+            <Dropdown
+              value={valueTimeWindow}
+              setValue={setValueTimeWindow}
+              data={timeWindow}
+            />
+            <Dropdown
+              value={valueMediaType}
+              setValue={setValueMediaType}
+              data={mediaType}
+            />
+          </View>
+        </View>
+      }>
       <FlatList
         keyExtractor={(_, index) => String(index)}
         style={styles.flatListStyle}
@@ -70,8 +100,14 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '90%',
   },
-  heightListTrendingStyle: {
-    height: '90%',
+  viewPrepearComponent: {
+    flexWrap: 'nowrap',
+    zIndex: 1000,
+  },
+  viewDropdownStyle: {
+    paddingTop: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
 
