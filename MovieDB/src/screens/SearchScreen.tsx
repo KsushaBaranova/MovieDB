@@ -1,35 +1,45 @@
 import React, {useEffect, useState} from 'react';
 import {ListRenderItemInfo} from 'react-native';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {ItemType} from 'react-native-dropdown-picker';
 import {Stack} from 'react-native-spacing-system';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
-import Dropdown from '../components/Dropdown/Dropdown';
 import FilmCell from '../components/FilmCell/FilmCell';
+import SearchBar from '../components/SearchBar/SearchBar';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {FilmModel} from '../interfaces';
 import {fetchTrendingDefault} from '../redux/actions/async/fetchTrendingDefault';
+import {searchFilms} from '../redux/actions/async/searchFilms';
+import {emptyList} from '../redux/reducers/filmsReducer';
 
-const TrendingScreen: React.FC<{}> = () => {
+const SearchScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
-  const trendingFilms = useAppSelector(state => state.films.items);
-  const [valueMediaType, setValueMediaType] = useState('all');
-  const [valueTimeWindow, setValueTimeWindow] = useState('week');
-
-  const mediaType: Array<ItemType> = [
-    {label: 'all', value: 'all'},
-    {label: 'movie', value: 'movie'},
-    {label: 'tv', value: 'tv'},
-  ];
-
-  const timeWindow: Array<ItemType> = [
-    {label: 'day', value: 'day'},
-    {label: 'week', value: 'week'},
-  ];
+  const [inputValue, setInputValue] = useState<string>('');
+  const searchingFilms = useAppSelector(state => state.films.items);
+  const [isFocusOnSearch, setIsFocusOnSearch] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(fetchTrendingDefault([`${valueMediaType}/${valueTimeWindow}`]));
-  }, [dispatch, valueMediaType, valueTimeWindow]);
+    if (inputValue !== '') {
+      dispatch(searchFilms(inputValue));
+    }
+  }, [dispatch, inputValue]);
+
+  const onChangeValueSearch = (value: string): void => {
+    setInputValue(value);
+  };
+
+  const onFocus = (): void => {
+    setIsFocusOnSearch(true);
+    if (isFocusOnSearch === false && inputValue === '') {
+      dispatch(emptyList());
+    }
+  };
+
+  const onBlur = (): void => {
+    setIsFocusOnSearch(false);
+    if (isFocusOnSearch === true && inputValue === '') {
+      dispatch(emptyList());
+    }
+  };
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {
     const {item} = itemInfo;
@@ -51,28 +61,23 @@ const TrendingScreen: React.FC<{}> = () => {
   return (
     <BackgroundForm
       headerProps={{
-        title: 'Trending',
+        title: 'Search',
       }}
       prepearComponent={
         <View style={styles.viewPrepearComponent}>
-          <View style={styles.viewDropdownStyle}>
-            <Dropdown
-              value={valueTimeWindow}
-              setValue={setValueTimeWindow}
-              data={timeWindow}
-            />
-            <Dropdown
-              value={valueMediaType}
-              setValue={setValueMediaType}
-              data={mediaType}
-            />
-          </View>
+          <SearchBar
+            value={inputValue}
+            onChangeText={onChangeValueSearch}
+            onFocus={onFocus}
+            onBlur={onBlur}
+          />
         </View>
-      }>
+      }
+      styleHeight={styles.heightListSearchingStyle}>
       <FlatList
         keyExtractor={(_, index) => String(index)}
         style={styles.flatListStyle}
-        data={trendingFilms}
+        data={searchingFilms}
         renderItem={renderItem}
         ListEmptyComponent={ListEmptyComponent}
         ItemSeparatorComponent={ItemSeparatorComponent}
@@ -101,14 +106,15 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   viewPrepearComponent: {
+    width: '100%',
+    alignItems: 'center',
     flexWrap: 'nowrap',
     zIndex: 1000,
+    marginTop: 15,
   },
-  viewDropdownStyle: {
-    paddingTop: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  heightListSearchingStyle: {
+    height: '85%',
   },
 });
 
-export default TrendingScreen;
+export default SearchScreen;

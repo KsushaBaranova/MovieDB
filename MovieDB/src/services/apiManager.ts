@@ -16,7 +16,7 @@ const getRequestService = (requestType: RequestType) => {
     case RequestType.fetchTrendingDefault:
       return 'trending/';
     case RequestType.searchFilms:
-      return 'search/movie/';
+      return 'search/movie';
     default:
       return '';
   }
@@ -29,7 +29,7 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
     case RequestType.fetchTrendingDefault:
       return serviceType + params[0];
     case RequestType.searchFilms:
-      return '';
+      return serviceType;
     default:
       return '';
   }
@@ -104,7 +104,6 @@ export const request = async <T>(
     domain +
     getRequestString(requestType, params.params || []) +
     paramsString;
-
   return new Promise<T>((resolve, reject) => {
     fetch(url, {
       method: getRequestType(requestType),

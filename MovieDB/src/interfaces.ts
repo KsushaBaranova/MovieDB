@@ -31,3 +31,21 @@ export interface FilmDataResponse {
   title?: string;
   name?: string;
 }
+
+export interface SearchBarProps {
+  value: string;
+  onChangeText?: (text: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+}
+
+export interface SearchingFilmResponse {
+  results: Array<SearchDataResponse>;
+}
+
+export interface SearchDataResponse {
+  id: string;
+  poster_path: string;
+  overview: string;
+  title: string;
+}
