@@ -13,7 +13,10 @@ interface MarkerCalloutProps {
   opening_hours?: {open_now?: boolean; weekday_text?: Array<string>};
 }
 
-let today = new Date();
+const today = new Date();
+const getWeekDay = () => {
+  return today.getDay() !== 0 ? today.getDay() - 1 : 6;
+};
 
 const MarkerCallout = (props: MarkerCalloutProps) => {
   return (
@@ -25,7 +28,7 @@ const MarkerCallout = (props: MarkerCalloutProps) => {
       </Text>
       <Text style={mapNavigationStyles.markerText}>
         <Text style={mapNavigationStyles.markerFieldDescriptor}> Rating: </Text>
-        {props.rating} / 5
+        {props.rating} / 5, based on {props.user_ratings_total} reviews.
       </Text>
       {props.opening_hours ? (
         <>
@@ -43,7 +46,7 @@ const MarkerCallout = (props: MarkerCalloutProps) => {
           </Text>
           <Text style={mapNavigationStyles.markerText}>
             {props.opening_hours?.weekday_text
-              ? props.opening_hours?.weekday_text[today.getDay()]
+              ? props.opening_hours?.weekday_text[getWeekDay()]
               : null}
           </Text>
         </>
