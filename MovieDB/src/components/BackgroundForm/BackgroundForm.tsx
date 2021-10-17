@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, ImageBackground} from 'react-native';
+import {View, Text, ImageBackground, ViewStyle} from 'react-native';
 import styles from './styles';
 
 export interface BackgroundFormProps {
   headerProps: {title: string};
   prepearComponent?: JSX.Element;
+  styleHeight?: ViewStyle;
 }
 
 const backgroundImage = require('../../../image/background.jpeg');
@@ -19,7 +20,9 @@ class BackgroundForm extends Component<BackgroundFormProps> {
           <Text style={styles.textStyle}>{this.props.headerProps.title}</Text>
         </View>
         {this.props.prepearComponent}
-        <View style={styles.viewStyle}>{this.props.children}</View>
+        <View style={[styles.viewStyle, this.props.styleHeight]}>
+          {this.props.children}
+        </View>
       </ImageBackground>
     );
   }

@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
   },
   viewStyle: {
     width: '100%',
-    height: '85%',
     alignItems: 'center',
     paddingTop: 30,
   },
