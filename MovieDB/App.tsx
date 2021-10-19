@@ -5,8 +5,31 @@ import TrendingScreen from './src/screens/TrendingScreen';
 import SearchScreen from './src/screens/SearchScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import FilmInfoScreen from './src/screens/FilmInfoScreen';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function TrendingStackScreen() {
+  return (
+    <Stack.Navigator
+      screenOptions={{headerBackTitle: 'Back', headerShown: false}}>
+      <Tab.Screen name="TrendingScreen" component={TrendingScreen} />
+      <Stack.Screen name="FilmInfoScreen" component={FilmInfoScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function SearchStackScreen() {
+  return (
+    <Stack.Navigator
+      screenOptions={{headerBackTitle: 'Back', headerShown: false}}>
+      <Tab.Screen name="TrenSearchScreendingScreen" component={SearchScreen} />
+      <Stack.Screen name="FilmInfoScreen" component={FilmInfoScreen} />
+    </Stack.Navigator>
+  );
+}
 
 function App() {
   return (
@@ -16,8 +39,11 @@ function App() {
           screenOptions={({route}) => ({
             headerShown: false,
           })}>
-          <Tab.Screen name="TrendingScreen" component={TrendingScreen} />
-          <Tab.Screen name="SearchScreen" component={SearchScreen} />
+          <Tab.Screen
+            name="TrendingStackScreen"
+            component={TrendingStackScreen}
+          />
+          <Tab.Screen name="SearchStackScreen" component={SearchStackScreen} />
           {/* <Tab.Screen name="" component={} /> */}
         </Tab.Navigator>
       </NavigationContainer>

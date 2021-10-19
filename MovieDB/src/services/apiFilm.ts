@@ -1,17 +1,22 @@
-import {SearchingFilmResponse, TrendingFilmResponse} from '../interfaces';
+import {
+  FilmInfoResponse,
+  SearchingFilmResponse,
+  TrendingFilmResponse,
+} from '../interfaces';
 import {request, RequestType} from './apiManager';
 
 export interface FilmApiInterface<T> {
-  fetchTrendingDefault(orderBy: string[]): Promise<T>;
+  fetchTrending(orderBy: string[]): Promise<T>;
   searchFilms(query: object): Promise<T>;
+  fetchFilmInfo(filmId: string[]): Promise<T>;
 }
 
 class FilmApi<T> implements FilmApiInterface<T> {
   private token: string =
     'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MTM2NmIzM2IyY2IzZDU0ZGY5ZDgxZGZiYWUxYWRlMyIsInN1YiI6IjYxNjQ4YTJiOGM0MGY3MDAyYTc0MDFiOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.nRzDNXNo9CxvJClIqjwYzheIgU80WObEswCn4ypjfnM';
 
-  async fetchTrendingDefault(orderBy: string[]): Promise<T> {
-    return request<T>(RequestType.fetchTrendingDefault, {
+  async fetchTrending(orderBy: string[]): Promise<T> {
+    return request<T>(RequestType.fetchTrending, {
       token: this.token,
       params: orderBy,
     });
@@ -23,7 +28,15 @@ class FilmApi<T> implements FilmApiInterface<T> {
       urlParams: query,
     });
   }
+
+  async fetchFilmInfo(filmId: string[]): Promise<T> {
+    return request<T>(RequestType.fetchFilmInfo, {
+      token: this.token,
+      params: filmId,
+    });
+  }
 }
 
 export const filmApi = new FilmApi<TrendingFilmResponse>();
 export const searchApi = new FilmApi<SearchingFilmResponse>();
+export const infoApi = new FilmApi<FilmInfoResponse>();

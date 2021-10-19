@@ -7,16 +7,19 @@ export enum Domain {
 }
 
 export enum RequestType {
-  fetchTrendingDefault,
+  fetchTrending,
   searchFilms,
+  fetchFilmInfo,
 }
 
 const getRequestService = (requestType: RequestType) => {
   switch (requestType) {
-    case RequestType.fetchTrendingDefault:
+    case RequestType.fetchTrending:
       return 'trending/';
     case RequestType.searchFilms:
       return 'search/movie';
+    case RequestType.fetchFilmInfo:
+      return 'movie/';
     default:
       return '';
   }
@@ -26,7 +29,8 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
   const serviceType = getRequestService(requestType);
 
   switch (requestType) {
-    case RequestType.fetchTrendingDefault:
+    case RequestType.fetchTrending:
+    case RequestType.fetchFilmInfo:
       return serviceType + params[0];
     case RequestType.searchFilms:
       return serviceType;
@@ -44,8 +48,9 @@ const getContentType = (requestType: RequestType) => {
 
 const getRequestType = (requestType: RequestType) => {
   switch (requestType) {
-    case RequestType.fetchTrendingDefault:
+    case RequestType.fetchTrending:
     case RequestType.searchFilms:
+    case RequestType.fetchFilmInfo:
       return 'GET';
   }
 };
