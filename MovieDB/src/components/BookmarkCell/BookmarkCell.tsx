@@ -21,7 +21,7 @@ const BookmarkCell: React.FC<BookmarksCellProps> = (
         style={bookmarkCellStyles.imageContainer}>
         <Image
           style={bookmarkCellStyles.image}
-          resizeMode={'center'}
+          resizeMode={windowHeight > 850 ? 'cover' : 'center'}
           source={{uri: 'https://image.tmdb.org/t/p/original' + imageUrl}}
         />
       </TouchableOpacity>
@@ -36,11 +36,11 @@ const BookmarkCell: React.FC<BookmarksCellProps> = (
             numberOfLines={windowHeight < 800 ? 3 : 5}>
             {'\t' + props.item.description}
           </Text>
+          <Text style={styles.counter}>
+            {props.itemIndex} / {props.listLength}
+          </Text>
         </View>
       </View>
-      <Text style={styles.counter}>
-        {props.itemIndex} / {props.listLength}
-      </Text>
     </View>
   );
 };
