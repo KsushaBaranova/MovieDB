@@ -12,10 +12,7 @@ function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({route}) => ({
-            headerShown: false,
-          })}>
+        <Tab.Navigator screenOptions={{headerShown: false}}>
           <Tab.Screen name="TrendingScreen" component={TrendingScreen} />
           <Tab.Screen name="SearchScreen" component={SearchScreen} />
           {/* <Tab.Screen name="" component={} /> */}
