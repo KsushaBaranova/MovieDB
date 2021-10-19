@@ -9,6 +9,10 @@ export enum Domain {
 export enum RequestType {
   fetchTrendingDefault,
   searchFilms,
+  createRequestToken,
+  createSession,
+  fetchBookmarks,
+  fetchAccount,
 }
 
 const getRequestService = (requestType: RequestType) => {
@@ -17,6 +21,14 @@ const getRequestService = (requestType: RequestType) => {
       return 'trending/';
     case RequestType.searchFilms:
       return 'search/movie';
+    case RequestType.createRequestToken:
+      return 'authentication/token/new';
+    case RequestType.createSession:
+      return 'authentication/session/new';
+    case RequestType.fetchBookmarks:
+      return 'account/';
+    case RequestType.fetchAccount:
+      return 'account';
     default:
       return '';
   }
@@ -29,7 +41,12 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
     case RequestType.fetchTrendingDefault:
       return serviceType + 'all/week';
     case RequestType.searchFilms:
+    case RequestType.createRequestToken:
+    case RequestType.createSession:
+    case RequestType.fetchAccount:
       return serviceType;
+    case RequestType.fetchBookmarks:
+      return serviceType + params[0] + '/favorite/movies';
     default:
       return '';
   }
@@ -46,7 +63,12 @@ const getRequestType = (requestType: RequestType) => {
   switch (requestType) {
     case RequestType.fetchTrendingDefault:
     case RequestType.searchFilms:
+    case RequestType.createRequestToken:
+    case RequestType.fetchBookmarks:
+    case RequestType.fetchAccount:
       return 'GET';
+    case RequestType.createSession:
+      return 'POST';
   }
 };
 

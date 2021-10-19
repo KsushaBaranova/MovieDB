@@ -49,3 +49,30 @@ export interface SearchDataResponse {
   overview: string;
   title: string;
 }
+
+export interface RequestTokenResponse {
+  success: string;
+  request_token: string;
+}
+
+export interface RequestSessionResponse {
+  success: string;
+  session_id: string;
+}
+
+export interface BookmarksState {
+  items: Array<FilmModel>;
+  sessionInitiated: boolean;
+  session_id: string;
+  error: string | null;
+}
+
+export interface UserAccount {
+  id: string;
+}
+
+export interface BookmarksCellProps {
+  item: FilmModel;
+  listLength: number;
+  itemIndex: number;
+}
