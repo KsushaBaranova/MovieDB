@@ -1,7 +1,9 @@
-import filmsReducer from './filmsReducer';
+import searchReducer from './searchReducer';
+import trendingReducer from './trendingReducer';
 
 const rootReducer = {
-  films: filmsReducer,
+  trending: trendingReducer,
+  search: searchReducer,
 };
 
 export default rootReducer;

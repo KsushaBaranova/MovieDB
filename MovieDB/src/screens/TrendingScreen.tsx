@@ -8,11 +8,11 @@ import Dropdown from '../components/Dropdown/Dropdown';
 import FilmCell from '../components/FilmCell/FilmCell';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {FilmModel} from '../interfaces';
-import {fetchTrendingDefault} from '../redux/actions/async/fetchTrendingDefault';
+import {fetchTrending} from '../redux/actions/async/fetchTrending';
 
 const TrendingScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
-  const trendingFilms = useAppSelector(state => state.films.trending);
+  const trendingFilms = useAppSelector(state => state.trending.item);
   const [valueMediaType, setValueMediaType] = useState('all');
   const [valueTimeWindow, setValueTimeWindow] = useState('week');
 
@@ -28,7 +28,7 @@ const TrendingScreen: React.FC<{}> = () => {
   ];
 
   useEffect(() => {
-    dispatch(fetchTrendingDefault([`${valueMediaType}/${valueTimeWindow}`]));
+    dispatch(fetchTrending([`${valueMediaType}/${valueTimeWindow}`]));
   }, [dispatch, valueMediaType, valueTimeWindow]);
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {

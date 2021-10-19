@@ -3,7 +3,7 @@ import {FilmModel} from '../../../interfaces';
 import {searchApi} from '../../../services/apiFilm';
 
 export const searchFilms = createAsyncThunk<Array<FilmModel>, string>(
-  'films/searchFilms',
+  'search/searchFilms',
   async (inputValue, thunkApi) => {
     const query = {query: inputValue};
 

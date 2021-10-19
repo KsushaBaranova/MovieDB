@@ -2,9 +2,14 @@ export interface FilmCellProps {
   item: FilmModel;
 }
 
-export interface FilmsState {
-  trending: Array<FilmModel>;
-  search: Array<FilmModel>;
+export interface TrendingState {
+  item: Array<FilmModel>;
+  loading: boolean;
+  error: string | null;
+}
+
+export interface SearchState {
+  item: Array<FilmModel>;
   loading: boolean;
   error: string | null;
 }

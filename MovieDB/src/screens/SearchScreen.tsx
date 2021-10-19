@@ -8,12 +8,12 @@ import SearchBar from '../components/SearchBar/SearchBar';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {FilmModel} from '../interfaces';
 import {searchFilms} from '../redux/actions/async/searchFilms';
-import {emptyList} from '../redux/reducers/filmsReducer';
+import {emptyList} from '../redux/reducers/searchReducer';
 
 const SearchScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState<string>('');
-  const searchingFilms = useAppSelector(state => state.films.search);
+  const searchingFilms = useAppSelector(state => state.search.item);
   const [isFocusOnSearch, setIsFocusOnSearch] = useState<boolean>(false);
 
   useEffect(() => {
