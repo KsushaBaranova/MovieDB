@@ -24,6 +24,7 @@ const BookmarksScreen = () => {
   const sessionInitiated = useAppSelector(
     state => state.bookmarks.sessionInitiated,
   );
+  let refreshing = false;
 
   !sessionInitiated
     ? dispatch(createSession())
@@ -65,6 +66,8 @@ const BookmarksScreen = () => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={() => dispatch(fetchBookmarks(sessionId))}
       />
     </BackgroundForm>
   );

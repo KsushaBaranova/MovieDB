@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {FilmsState} from '../../interfaces';
+import {fetchSimilarMovies} from '../actions/async/fetchSimilar';
 import {fetchTrendingDefault} from '../actions/async/fetchTrendingDefault';
 import {searchFilms} from '../actions/async/searchFilms';
 
@@ -18,6 +19,9 @@ export const filmsSlice = createSlice({
       state.items = action.payload;
     });
     builder.addCase(searchFilms.fulfilled, (state, action) => {
+      state.items = action.payload;
+    });
+    builder.addCase(fetchSimilarMovies.fulfilled, (state, action) => {
       state.items = action.payload;
     });
   },
