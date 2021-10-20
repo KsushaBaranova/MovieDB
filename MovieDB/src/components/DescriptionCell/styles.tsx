@@ -1,22 +1,28 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
+
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   viewContainerStyle: {
     paddingHorizontal: 15,
-  //  paddingTop: 5,
-   // paddingBottom: 5,
   },
   textNameStyle: {
-    fontSize: 15,
+    fontSize: windowHeight < 900 ? 15 : 16,
+    fontWeight: '700',
     color: 'black',
-    fontWeight: 'bold',
+    textAlign: 'center',
   },
   textDescriptionStyle: {
-    fontSize: 14,
+    fontSize: windowHeight < 900 ? 14 : 15,
     textAlign: 'justify',
+    fontWeight: '500',
+    lineHeight: 18,
+    color: 'rgb(58,77,95)',
   },
   viewTitleStyle: {
-    paddingBottom: 5,
+    paddingBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
 });
 

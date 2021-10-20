@@ -1,4 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
+
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   backgroundImageStyle: {
@@ -13,13 +15,13 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontSize: 20,
+    fontSize: windowHeight < 900 ? 20 : 22,
     fontWeight: 'bold',
   },
   viewStyle: {
     width: '100%',
     alignItems: 'center',
-    paddingTop: 30,
+    paddingTop: 10,
   },
 });
 

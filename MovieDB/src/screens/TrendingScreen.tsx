@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ListRenderItemInfo} from 'react-native';
+import {Dimensions, ListRenderItemInfo} from 'react-native';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {ItemType} from 'react-native-dropdown-picker';
 import {Stack} from 'react-native-spacing-system';
@@ -9,6 +9,8 @@ import FilmCell from '../components/FilmCell/FilmCell';
 import {useAppDispatch, useAppSelector} from '../hooks';
 import {FilmModel} from '../interfaces';
 import {fetchTrending} from '../redux/actions/async/fetchTrending';
+
+const windowHeight = Dimensions.get('window').height;
 
 const TrendingScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
@@ -46,7 +48,9 @@ const TrendingScreen: React.FC<{}> = () => {
     </View>
   );
 
-  const ItemSeparatorComponent = () => <Stack size={20} />;
+  const ItemSeparatorComponent = () => (
+    <Stack size={windowHeight < 800 ? 10 : 15} />
+  );
 
   return (
     <BackgroundForm
@@ -104,9 +108,9 @@ const styles = StyleSheet.create({
   viewPrepearComponent: {
     flexWrap: 'nowrap',
     zIndex: 1000,
+    marginTop: 10,
   },
   viewDropdownStyle: {
-    paddingTop: 15,
     flexDirection: 'row',
     justifyContent: 'space-around',
   },

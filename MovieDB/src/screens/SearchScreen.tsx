@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ListRenderItemInfo} from 'react-native';
+import {Dimensions, ListRenderItemInfo} from 'react-native';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {Stack} from 'react-native-spacing-system';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
@@ -15,6 +15,8 @@ const SearchScreen: React.FC<{}> = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const searchingFilms = useAppSelector(state => state.search.item);
   const [isFocusOnSearch, setIsFocusOnSearch] = useState<boolean>(false);
+
+  const windowHeight = Dimensions.get('window').height;
 
   useEffect(() => {
     if (inputValue !== '') {
@@ -55,7 +57,9 @@ const SearchScreen: React.FC<{}> = () => {
     </View>
   );
 
-  const ItemSeparatorComponent = () => <Stack size={20} />;
+  const ItemSeparatorComponent = () => (
+    <Stack size={windowHeight < 800 ? 10 : 15} />
+  );
 
   return (
     <BackgroundForm
@@ -87,6 +91,7 @@ const SearchScreen: React.FC<{}> = () => {
 
 const styles = StyleSheet.create({
   emptyContainerStyle: {
+    marginTop: 20,
     flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
@@ -107,9 +112,8 @@ const styles = StyleSheet.create({
   viewPrepearComponent: {
     width: '100%',
     alignItems: 'center',
-    flexWrap: 'nowrap',
     zIndex: 1000,
-    marginTop: 15,
+    marginTop: 10,
   },
   heightListSearchingStyle: {
     height: '85%',

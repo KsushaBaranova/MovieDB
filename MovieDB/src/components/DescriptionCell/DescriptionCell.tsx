@@ -1,16 +1,21 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Dimensions, Text} from 'react-native';
 import {View} from 'react-native';
 import {DescriptionCellProps} from '../../interfaces';
 import styles from './styles';
 
-const maxNumberOfCharacters = 160;
+const windowHeight = Dimensions.get('window').height;
+let numberOfLines = 0;
 
-const sliceAndAddEllipsis = (text: string) => {
-  let sliced = text.slice(0, maxNumberOfCharacters);
-  sliced += '...';
-  return sliced;
-};
+if (windowHeight < 650) {
+  numberOfLines = 3;
+} else if (windowHeight > 650 && windowHeight < 800) {
+  numberOfLines = 4;
+} else if (windowHeight > 650 && windowHeight < 900) {
+  numberOfLines = 5;
+} else if (windowHeight > 900) {
+  numberOfLines = 6;
+}
 
 const DescriptionCell: React.FC<DescriptionCellProps> = (
   props: DescriptionCellProps,
@@ -22,10 +27,11 @@ const DescriptionCell: React.FC<DescriptionCellProps> = (
       </View>
 
       <View>
-        <Text style={styles.textDescriptionStyle}>
-          {props.description.length > maxNumberOfCharacters
-            ? sliceAndAddEllipsis(props.description)
-            : props.description}
+        <Text
+          style={styles.textDescriptionStyle}
+          ellipsizeMode={'tail'}
+          numberOfLines={numberOfLines}>
+          {props.description}
         </Text>
       </View>
     </View>
