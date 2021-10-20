@@ -1,4 +1,10 @@
-import {SearchingFilmResponse, TrendingFilmResponse} from '../interfaces';
+import {
+  RequestSessionResponse,
+  RequestTokenResponse,
+  SearchingFilmResponse,
+  TrendingFilmResponse,
+  UserAccount,
+} from '../interfaces';
 import {request, RequestType} from './apiManager';
 
 export interface FilmApiInterface<T> {
@@ -23,7 +29,41 @@ class FilmApi<T> implements FilmApiInterface<T> {
       urlParams: query,
     });
   }
+
+  async createRequestToken(): Promise<T> {
+    return request<T>(RequestType.createRequestToken, {
+      token: this.token,
+    });
+  }
+
+  async createSession(requestedToken: string): Promise<T> {
+    return request<T>(RequestType.createSession, {
+      body: {request_token: requestedToken},
+      token: this.token,
+    });
+  }
+
+  async fetchBookmarks(session_id: string, account_id: string): Promise<T> {
+    return request<T>(RequestType.fetchBookmarks, {
+      token: this.token,
+      urlParams: {
+        session_id: session_id,
+      },
+      params: [account_id],
+    });
+  }
+
+  async fetchAccount(id: string): Promise<T> {
+    return request<T>(RequestType.fetchAccount, {
+      token: this.token,
+      urlParams: {session_id: id},
+    });
+  }
 }
 
 export const filmApi = new FilmApi<TrendingFilmResponse>();
 export const searchApi = new FilmApi<SearchingFilmResponse>();
+export const requestTokenApi = new FilmApi<RequestTokenResponse>();
+export const requestSessionIdApi = new FilmApi<RequestSessionResponse>();
+export const bookmarksApi = new FilmApi<TrendingFilmResponse>();
+export const accountApi = new FilmApi<UserAccount>();
