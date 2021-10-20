@@ -1,9 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {TrendingState} from '../../interfaces';
+import {FilmListState} from '../../interfaces';
 import {fetchTrending} from '../actions/async/fetchTrending';
 
-const initialState: TrendingState = {
-  item: [],
+const initialState: FilmListState = {
+  items: [],
   loading: false,
   error: null,
 };
@@ -14,7 +14,7 @@ export const trendingSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchTrending.fulfilled, (state, action) => {
-      state.item = action.payload;
+      state.items = action.payload;
     });
   },
 });

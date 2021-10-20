@@ -15,7 +15,7 @@ export const fetchTrending = createAsyncThunk<Array<FilmModel>, string[]>(
         description: item.overview,
       }));
     } catch (error) {
-      console.log('fetchTrending error: ', error);
+      console.log('Fetch trending error: ', error);
       return thunkApi.rejectWithValue(error);
     }
   },

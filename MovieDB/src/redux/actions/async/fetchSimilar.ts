@@ -4,7 +4,7 @@ import {FilmModel} from '../../../interfaces';
 import {similarMovieshApi} from '../../../services/apiFilm';
 
 export const fetchSimilarMovies = createAsyncThunk<Array<FilmModel>, string>(
-  'films/fetchSimilarMovies',
+  'similar/fetchSimilarMovies',
   async (inputValue, thunkApi) => {
     const id = inputValue;
 

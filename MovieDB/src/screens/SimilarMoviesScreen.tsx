@@ -10,7 +10,7 @@ import {fetchSimilarMovies} from '../redux/actions/async/fetchSimilar';
 
 const SimilarMoviesScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
-  const similarFilms = useAppSelector(state => state.films.items);
+  const similarFilms = useAppSelector(state => state.similar.items);
   const numColumns = 2;
   let refreshing = false;
 

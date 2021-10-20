@@ -17,7 +17,7 @@ export const searchFilms = createAsyncThunk<Array<FilmModel>, string>(
         description: item.overview,
       }));
     } catch (error) {
-      console.log('searchFilms error: ', error);
+      console.log('Search films error: ', error);
       return thunkApi.rejectWithValue(error);
     }
   },

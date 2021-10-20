@@ -14,7 +14,7 @@ const windowHeight = Dimensions.get('window').height;
 
 const TrendingScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
-  const trendingFilms = useAppSelector(state => state.trending.item);
+  const trendingFilms = useAppSelector(state => state.trending.items);
   const [valueMediaType, setValueMediaType] = useState('all');
   const [valueTimeWindow, setValueTimeWindow] = useState('week');
 

@@ -13,7 +13,7 @@ import {emptyList} from '../redux/reducers/searchReducer';
 const SearchScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState<string>('');
-  const searchingFilms = useAppSelector(state => state.search.item);
+  const searchingFilms = useAppSelector(state => state.search.items);
   const [isFocusOnSearch, setIsFocusOnSearch] = useState<boolean>(false);
 
   const windowHeight = Dimensions.get('window').height;

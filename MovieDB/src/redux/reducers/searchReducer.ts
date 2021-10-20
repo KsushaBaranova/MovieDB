@@ -1,9 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {SearchState} from '../../interfaces';
+import {FilmListState} from '../../interfaces';
 import {searchFilms} from '../actions/async/searchFilms';
 
-const initialState: SearchState = {
-  item: [],
+const initialState: FilmListState = {
+  items: [],
   loading: false,
   error: null,
 };
@@ -13,12 +13,12 @@ export const searchSlice = createSlice({
   initialState,
   reducers: {
     emptyList: state => {
-      state.item = [];
+      state.items = [];
     },
   },
   extraReducers: builder => {
     builder.addCase(searchFilms.fulfilled, (state, action) => {
-      state.item = action.payload;
+      state.items = action.payload;
     });
   },
 });
