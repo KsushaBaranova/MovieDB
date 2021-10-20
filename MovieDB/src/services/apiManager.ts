@@ -9,6 +9,11 @@ export enum Domain {
 export enum RequestType {
   fetchTrending,
   searchFilms,
+  createRequestToken,
+  createSession,
+  fetchBookmarks,
+  fetchAccount,
+  fetchSimilarMovies,
 }
 
 const getRequestService = (requestType: RequestType) => {
@@ -17,6 +22,16 @@ const getRequestService = (requestType: RequestType) => {
       return 'trending/';
     case RequestType.searchFilms:
       return 'search/movie';
+    case RequestType.createRequestToken:
+      return 'authentication/token/new';
+    case RequestType.createSession:
+      return 'authentication/session/new';
+    case RequestType.fetchBookmarks:
+      return 'account/';
+    case RequestType.fetchAccount:
+      return 'account';
+    case RequestType.fetchSimilarMovies:
+      return 'movie/';
     default:
       return '';
   }
@@ -29,7 +44,14 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
     case RequestType.fetchTrending:
       return serviceType + params[0];
     case RequestType.searchFilms:
+    case RequestType.createRequestToken:
+    case RequestType.createSession:
+    case RequestType.fetchAccount:
       return serviceType;
+    case RequestType.fetchBookmarks:
+      return serviceType + params[0] + '/favorite/movies';
+    case RequestType.fetchSimilarMovies:
+      return serviceType + params[0] + '/similar';
     default:
       return '';
   }
@@ -46,7 +68,13 @@ const getRequestType = (requestType: RequestType) => {
   switch (requestType) {
     case RequestType.fetchTrending:
     case RequestType.searchFilms:
+    case RequestType.createRequestToken:
+    case RequestType.fetchBookmarks:
+    case RequestType.fetchAccount:
+    case RequestType.fetchSimilarMovies:
       return 'GET';
+    case RequestType.createSession:
+      return 'POST';
   }
 };
 
