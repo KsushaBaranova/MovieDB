@@ -3,17 +3,32 @@ export enum URLType {
 }
 
 export enum Domain {
-  movieDB = 'api.themoviedb.org/',
+  movieDB = 'api.themoviedb.org/3/',
 }
 
 export enum RequestType {
-  fetchTrendingDefault,
+  fetchTrending,
+  searchFilms,
+  createRequestToken,
+  createSession,
+  fetchBookmarks,
+  fetchAccount,
 }
 
 const getRequestService = (requestType: RequestType) => {
   switch (requestType) {
-    case RequestType.fetchTrendingDefault:
+    case RequestType.fetchTrending:
       return 'trending/';
+    case RequestType.searchFilms:
+      return 'search/movie';
+    case RequestType.createRequestToken:
+      return 'authentication/token/new';
+    case RequestType.createSession:
+      return 'authentication/session/new';
+    case RequestType.fetchBookmarks:
+      return 'account/';
+    case RequestType.fetchAccount:
+      return 'account';
     default:
       return '';
   }
@@ -23,8 +38,15 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
   const serviceType = getRequestService(requestType);
 
   switch (requestType) {
-    case RequestType.fetchTrendingDefault:
-      return serviceType + 'all/week';
+    case RequestType.fetchTrending:
+      return serviceType + params[0];
+    case RequestType.searchFilms:
+    case RequestType.createRequestToken:
+    case RequestType.createSession:
+    case RequestType.fetchAccount:
+      return serviceType;
+    case RequestType.fetchBookmarks:
+      return serviceType + params[0] + '/favorite/movies';
     default:
       return '';
   }
@@ -39,8 +61,14 @@ const getContentType = (requestType: RequestType) => {
 
 const getRequestType = (requestType: RequestType) => {
   switch (requestType) {
-    case RequestType.fetchTrendingDefault:
+    case RequestType.fetchTrending:
+    case RequestType.searchFilms:
+    case RequestType.createRequestToken:
+    case RequestType.fetchBookmarks:
+    case RequestType.fetchAccount:
       return 'GET';
+    case RequestType.createSession:
+      return 'POST';
   }
 };
 
@@ -51,7 +79,7 @@ const needAuthorization = (requestType: RequestType) => {
   }
 };
 
-const createBody = (requestType: RequestType, body: Object | undefined) => {
+const createBody = (requestType: RequestType, body?: Object | undefined) => {
   switch (requestType) {
     default:
       return JSON.stringify(body);
@@ -98,7 +126,6 @@ export const request = async <T>(
     domain +
     getRequestString(requestType, params.params || []) +
     paramsString;
-
   return new Promise<T>((resolve, reject) => {
     fetch(url, {
       method: getRequestType(requestType),

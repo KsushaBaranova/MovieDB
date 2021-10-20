@@ -1,5 +1,11 @@
+import searchReducer from './searchReducer';
+import trendingReducer from './trendingReducer';
+import bookmarksReducer from './bookmarksReducer';
+
 const rootReducer = {
-  // add reducer
+  trending: trendingReducer,
+  search: searchReducer,
+  bookmarks: bookmarksReducer,
 };
 
 export default rootReducer;
