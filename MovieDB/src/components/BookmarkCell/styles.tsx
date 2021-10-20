@@ -1,10 +1,13 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
 const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 const bookmarkCellStyles = StyleSheet.create({
   container: {
-    flex: 0.95,
+    height: height * 0.78,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     width: width * 0.9,
     marginHorizontal: 10,
     borderRadius: 25,
@@ -14,17 +17,16 @@ const bookmarkCellStyles = StyleSheet.create({
   },
   imageContainer: {
     marginTop: 20,
-    flex: 0.9,
-    overflow: 'visible',
+    flex: 1,
+    overflow: 'hidden',
     alignSelf: 'center',
-    width: width < 380 ? '75%' : '80%',
+    width: width * 0.8,
   },
   image: {
     flex: 1,
     borderRadius: 20,
   },
   descriptionContainer: {
-    flex: 0.3,
     paddingHorizontal: 20,
   },
   titleContainer: {
@@ -51,7 +53,7 @@ const bookmarkCellStyles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     color: 'rgba(58,77,95,0.4)',
-    marginVertical: 5,
+    marginVertical: 10,
   },
 });
 
