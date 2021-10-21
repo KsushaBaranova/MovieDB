@@ -50,6 +50,7 @@ const SearchScreen: React.FC<{}> = ({navigation, route}) => {
             navigation.navigate('FilmInfoScreen', {
               id: item.id,
               nameButton: 'Show similar movies',
+              mediaType: item.mediaType,
             })
           }
         />

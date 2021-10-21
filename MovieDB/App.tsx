@@ -13,8 +13,7 @@ const Stack = createNativeStackNavigator();
 
 function TrendingStackScreen() {
   return (
-    <Stack.Navigator
-      screenOptions={{headerBackTitle: 'Back', headerShown: false}}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Tab.Screen name="TrendingScreen" component={TrendingScreen} />
       <Stack.Screen name="FilmInfoScreen" component={FilmInfoScreen} />
     </Stack.Navigator>
@@ -23,9 +22,8 @@ function TrendingStackScreen() {
 
 function SearchStackScreen() {
   return (
-    <Stack.Navigator
-      screenOptions={{headerBackTitle: 'Back', headerShown: false}}>
-      <Tab.Screen name="TrenSearchScreendingScreen" component={SearchScreen} />
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen name="FilmInfoScreen" component={FilmInfoScreen} />
     </Stack.Navigator>
   );
@@ -35,16 +33,12 @@ function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({route}) => ({
-            headerShown: false,
-          })}>
+        <Tab.Navigator screenOptions={{headerShown: false}}>
           <Tab.Screen
             name="TrendingStackScreen"
             component={TrendingStackScreen}
           />
           <Tab.Screen name="SearchStackScreen" component={SearchStackScreen} />
-          {/* <Tab.Screen name="" component={} /> */}
         </Tab.Navigator>
       </NavigationContainer>
     </Provider>

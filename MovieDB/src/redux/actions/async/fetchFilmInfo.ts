@@ -1,12 +1,15 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {InfoFilmModel} from '../../../interfaces';
-import {infoApi} from '../../../services/apiFilm';
+import {infoFilmApi} from '../../../services/apiFilm';
 
 export const fetchFilmInfo = createAsyncThunk<InfoFilmModel, string[]>(
-  'films/fetchFilmInfo',
+  'info/fetchFilmInfo',
   async (filmId, thunkApi) => {
     try {
-      const response = await infoApi.fetchFilmInfo(filmId);
+      let append = {
+        append_to_response: 'videos',
+      };
+      const response = await infoFilmApi.fetchFilmInfo(filmId, append);
 
       return {
         id: response.id,
@@ -14,8 +17,9 @@ export const fetchFilmInfo = createAsyncThunk<InfoFilmModel, string[]>(
         name: response.title,
         description: response.overview,
         genres: response.genres.map(item => item.name),
-        dateRealese: response.release_date,
+        dateRealese: response.release_date.slice(0, 4),
         rating: response.vote_average,
+        videos: response.videos.results[0],
       };
     } catch (error) {
       console.log('fetchFilmInfo error: ', error);

@@ -10,6 +10,7 @@ export enum RequestType {
   fetchTrending,
   searchFilms,
   fetchFilmInfo,
+  fetchTVInfo,
 }
 
 const getRequestService = (requestType: RequestType) => {
@@ -17,9 +18,11 @@ const getRequestService = (requestType: RequestType) => {
     case RequestType.fetchTrending:
       return 'trending/';
     case RequestType.searchFilms:
-      return 'search/movie';
+      return 'search/multi';
     case RequestType.fetchFilmInfo:
       return 'movie/';
+    case RequestType.fetchTVInfo:
+      return 'tv/';
     default:
       return '';
   }
@@ -31,6 +34,8 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
   switch (requestType) {
     case RequestType.fetchTrending:
     case RequestType.fetchFilmInfo:
+      return serviceType + params[0];
+    case RequestType.fetchTVInfo:
       return serviceType + params[0];
     case RequestType.searchFilms:
       return serviceType;
@@ -51,6 +56,7 @@ const getRequestType = (requestType: RequestType) => {
     case RequestType.fetchTrending:
     case RequestType.searchFilms:
     case RequestType.fetchFilmInfo:
+    case RequestType.fetchTVInfo:
       return 'GET';
   }
 };
@@ -109,6 +115,7 @@ export const request = async <T>(
     domain +
     getRequestString(requestType, params.params || []) +
     paramsString;
+  console.log(url);
   return new Promise<T>((resolve, reject) => {
     fetch(url, {
       method: getRequestType(requestType),
@@ -122,6 +129,7 @@ export const request = async <T>(
           response
             .json()
             .then((data: T) => {
+              console.log(data);
               resolve(data);
             })
             .catch(err => {

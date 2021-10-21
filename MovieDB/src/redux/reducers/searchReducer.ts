@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {SearchState} from '../../interfaces';
+import {FilmListState} from '../../interfaces';
 import {searchFilms} from '../actions/async/searchFilms';
 
-const initialState: SearchState = {
+const initialState: FilmListState = {
   item: [],
   loading: false,
   error: null,
