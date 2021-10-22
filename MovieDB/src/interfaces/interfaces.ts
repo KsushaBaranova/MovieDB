@@ -1,11 +1,12 @@
 export interface FilmCellProps {
   item: FilmModel;
+  imageUrl: string;
 }
 
 export interface TrendingState {
   item: Array<FilmModel>;
   loading: boolean;
-  error: string | null;
+  error: string | undefined;
 }
 
 export interface SearchState {
@@ -53,7 +54,8 @@ export interface SearchDataResponse {
   id: string;
   poster_path: string;
   overview: string;
-  title: string;
+  title?: string;
+  name?: string;
 }
 
 export interface RequestTokenResponse {

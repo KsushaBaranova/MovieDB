@@ -20,7 +20,7 @@ const getRequestService = (requestType: RequestType) => {
     case RequestType.fetchTrending:
       return 'trending/';
     case RequestType.searchFilms:
-      return 'search/movie';
+      return 'search/multi';
     case RequestType.createRequestToken:
       return 'authentication/token/new';
     case RequestType.createSession:

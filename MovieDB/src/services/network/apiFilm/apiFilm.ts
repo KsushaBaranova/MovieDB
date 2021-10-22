@@ -1,11 +1,11 @@
+import {request, RequestType} from '..';
 import {
   RequestSessionResponse,
   RequestTokenResponse,
   SearchingFilmResponse,
   TrendingFilmResponse,
   UserAccount,
-} from '../interfaces';
-import {request, RequestType} from './apiManager';
+} from '../../../interfaces/interfaces';
 
 export interface FilmApiInterface<T> {
   fetchTrending(orderBy: string[]): Promise<T>;

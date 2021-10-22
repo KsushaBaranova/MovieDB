@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {BookmarksState} from '../../interfaces';
+import {BookmarksState} from '../../interfaces/interfaces';
 import {createSession} from '../actions/async/createSession';
 import {fetchBookmarks} from '../actions/async/fetchBookmarks';
 

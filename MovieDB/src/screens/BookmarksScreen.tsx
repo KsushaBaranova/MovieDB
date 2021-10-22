@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
 import BookmarkCell from '../components/BookmarkCell/BookmarkCell';
-import {useAppDispatch, useAppSelector} from '../hooks';
-import {FilmModel} from '../interfaces';
+import {useAppDispatch, useAppSelector} from '../hooks/hooks';
+import {FilmModel} from '../interfaces/interfaces';
 import {createSession} from '../redux/actions/async/createSession';
 import {fetchBookmarks} from '../redux/actions/async/fetchBookmarks';
 

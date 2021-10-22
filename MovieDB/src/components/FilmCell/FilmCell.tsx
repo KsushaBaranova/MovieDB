@@ -1,31 +1,31 @@
 import React from 'react';
 import {Image, TouchableOpacity, View} from 'react-native';
-import {FilmCellProps} from '../../interfaces';
+import {FilmCellProps} from '../../interfaces/interfaces';
 import DescriptionCell from '../DescriptionCell/DescriptionCell';
 import styles from './styles';
 
 const FilmCell: React.FC<FilmCellProps> = (props: FilmCellProps) => {
-  let {imageUrl} = props.item;
+  let {item, imageUrl} = props;
 
   const onPress = () => {
     console.log(props.item.id);
   };
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
       <View style={styles.viewContainerStyle}>
         <View style={styles.viewImageStyle}>
           <Image
             style={styles.imageStyle}
             resizeMode={'contain'}
-            source={{uri: 'https://image.tmdb.org/t/p/original' + imageUrl}}
+            source={{uri: imageUrl}}
           />
         </View>
 
         <View style={styles.viewDescriptionStyle}>
           <DescriptionCell
-            nameFilm={props.item.name}
-            description={props.item.description}
+            nameFilm={item.name}
+            description={item.description}
           />
         </View>
       </View>

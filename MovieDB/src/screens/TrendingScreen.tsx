@@ -1,32 +1,42 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, ListRenderItemInfo} from 'react-native';
+import {ListRenderItemInfo} from 'react-native';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {ItemType} from 'react-native-dropdown-picker';
 import {Stack} from 'react-native-spacing-system';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
 import Dropdown from '../components/Dropdown/Dropdown';
 import FilmCell from '../components/FilmCell/FilmCell';
-import {useAppDispatch, useAppSelector} from '../hooks';
-import {FilmModel} from '../interfaces';
+import {useAppDispatch, useAppSelector} from '../hooks/hooks';
+import {FilmModel} from '../interfaces/interfaces';
 import {fetchTrending} from '../redux/actions/async/fetchTrending';
 
-const windowHeight = Dimensions.get('window').height;
+enum Media {
+  all = 'All',
+  movie = 'Movie',
+  tv = 'TV',
+}
+
+enum Time {
+  day = 'Day',
+  week = 'Week',
+}
 
 const TrendingScreen: React.FC<{}> = () => {
+  const pathForImage = 'https://image.tmdb.org/t/p/original';
   const dispatch = useAppDispatch();
   const trendingFilms = useAppSelector(state => state.trending.item);
   const [valueMediaType, setValueMediaType] = useState('all');
   const [valueTimeWindow, setValueTimeWindow] = useState('week');
 
   const mediaType: Array<ItemType> = [
-    {label: 'all', value: 'all'},
-    {label: 'movie', value: 'movie'},
-    {label: 'tv', value: 'tv'},
+    {label: Media.all, value: Media.all.toLowerCase()},
+    {label: Media.movie, value: Media.movie.toLowerCase()},
+    {label: Media.tv, value: Media.tv.toLowerCase()},
   ];
 
   const timeWindow: Array<ItemType> = [
-    {label: 'day', value: 'day'},
-    {label: 'week', value: 'week'},
+    {label: Time.day, value: Time.day.toLowerCase()},
+    {label: Time.week, value: Time.week.toLowerCase()},
   ];
 
   useEffect(() => {
@@ -35,9 +45,11 @@ const TrendingScreen: React.FC<{}> = () => {
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {
     const {item} = itemInfo;
+    let imageUrl: string = `${pathForImage}${item.imageUrl}`;
+
     return (
       <View style={styles.imageContainerStyle}>
-        <FilmCell item={item} />
+        <FilmCell item={item} imageUrl={imageUrl} />
       </View>
     );
   };
@@ -48,9 +60,7 @@ const TrendingScreen: React.FC<{}> = () => {
     </View>
   );
 
-  const ItemSeparatorComponent = () => (
-    <Stack size={windowHeight < 800 ? 10 : 15} />
-  );
+  const ItemSeparatorComponent = () => <Stack size={10} />;
 
   return (
     <BackgroundForm
@@ -112,7 +122,8 @@ const styles = StyleSheet.create({
   },
   viewDropdownStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
   },
   heightListTrendingStyle: {
     height: '85%',

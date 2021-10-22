@@ -1,6 +1,5 @@
-import {Dimensions, StyleSheet} from 'react-native';
-
-const windowHeight = Dimensions.get('window').height;
+import {StyleSheet} from 'react-native';
+import {fontNormalize} from '../../helper/normalize';
 
 const styles = StyleSheet.create({
   backgroundImageStyle: {
@@ -11,11 +10,11 @@ const styles = StyleSheet.create({
   viewTextStyle: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingLeft: 30,
+    paddingLeft: 20,
   },
   textStyle: {
     color: 'white',
-    fontSize: windowHeight < 900 ? 20 : 22,
+    fontSize: fontNormalize(16),
     fontWeight: 'bold',
   },
   viewStyle: {

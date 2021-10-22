@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
-import {BookmarksCellProps} from '../../interfaces';
+import {BookmarksCellProps} from '../../interfaces/interfaces';
 import styles from './styles';
 import bookmarkCellStyles from './styles';
 

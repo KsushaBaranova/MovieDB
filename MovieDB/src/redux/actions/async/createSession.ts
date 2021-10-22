@@ -1,8 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {Alert, Platform} from 'react-native';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
-import {RequestSessionResponse} from '../../../interfaces';
-import {requestSessionIdApi, requestTokenApi} from '../../../services/apiFilm';
+import {RequestSessionResponse} from '../../../interfaces/interfaces';
+import {requestSessionIdApi, requestTokenApi} from '../../../services/network';
 
 export const createSession = createAsyncThunk<string>(
   'bookmarks/createSession',

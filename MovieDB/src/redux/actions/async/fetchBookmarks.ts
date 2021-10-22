@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {Alert} from 'react-native';
-import {FilmModel} from '../../../interfaces';
-import {accountApi, bookmarksApi} from '../../../services/apiFilm';
+import {FilmModel} from '../../../interfaces/interfaces';
+import {accountApi, bookmarksApi} from '../../../services/network';
 
 export const fetchBookmarks = createAsyncThunk<Array<FilmModel>, string>(
   'bookmarks/fetchBookmarks',
