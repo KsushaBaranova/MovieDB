@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {fontNormalize} from '../../helper/normalize';
 
 const styles = StyleSheet.create({
   backgroundImageStyle: {
@@ -9,17 +10,17 @@ const styles = StyleSheet.create({
   viewTextStyle: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingLeft: 30,
+    paddingLeft: 20,
   },
   textStyle: {
     color: 'white',
-    fontSize: 20,
+    fontSize: fontNormalize(16),
     fontWeight: 'bold',
   },
   viewStyle: {
     width: '100%',
     alignItems: 'center',
-    paddingTop: 30,
+    paddingTop: 10,
   },
 });
 

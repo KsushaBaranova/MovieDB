@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../helper/normalize';
 
 const styles = StyleSheet.create({
   viewContainerStyle: {
@@ -6,14 +7,16 @@ const styles = StyleSheet.create({
     flexWrap: 'nowrap',
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderRadius: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
     paddingRight: 10,
-    height: 160,
+    height: SCREEN_HEIGHT * 0.2,
+    borderWidth: 4,
+    borderColor: 'rgba(203,178,184,0.6)',
   },
   imageStyle: {
-    height: 120,
-    width: 120,
+    height: SCREEN_HEIGHT * 0.16,
+    width: SCREEN_WIDTH * 0.3,
   },
   viewImageStyle: {
     width: '30%',

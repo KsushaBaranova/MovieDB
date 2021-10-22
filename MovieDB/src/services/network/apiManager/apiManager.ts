@@ -11,6 +11,10 @@ export enum RequestType {
   searchFilms,
   fetchFilmInfo,
   fetchTVInfo,
+  createRequestToken,
+  createSession,
+  fetchBookmarks,
+  fetchAccount,
 }
 
 const getRequestService = (requestType: RequestType) => {
@@ -23,6 +27,14 @@ const getRequestService = (requestType: RequestType) => {
       return 'movie/';
     case RequestType.fetchTVInfo:
       return 'tv/';
+    case RequestType.createRequestToken:
+      return 'authentication/token/new';
+    case RequestType.createSession:
+      return 'authentication/session/new';
+    case RequestType.fetchBookmarks:
+      return 'account/';
+    case RequestType.fetchAccount:
+      return 'account';
     default:
       return '';
   }
@@ -38,7 +50,12 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
     case RequestType.fetchTVInfo:
       return serviceType + params[0];
     case RequestType.searchFilms:
+    case RequestType.createRequestToken:
+    case RequestType.createSession:
+    case RequestType.fetchAccount:
       return serviceType;
+    case RequestType.fetchBookmarks:
+      return serviceType + params[0] + '/favorite/movies';
     default:
       return '';
   }
@@ -57,7 +74,12 @@ const getRequestType = (requestType: RequestType) => {
     case RequestType.searchFilms:
     case RequestType.fetchFilmInfo:
     case RequestType.fetchTVInfo:
+    case RequestType.createRequestToken:
+    case RequestType.fetchBookmarks:
+    case RequestType.fetchAccount:
       return 'GET';
+    case RequestType.createSession:
+      return 'POST';
   }
 };
 

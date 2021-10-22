@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {FilmListState} from '../../interfaces';
+import {FilmListState} from '../../interfaces/interfaces';
 import {searchFilms} from '../actions/async/searchFilms';
 
 const initialState: FilmListState = {

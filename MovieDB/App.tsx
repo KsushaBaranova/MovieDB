@@ -7,6 +7,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import FilmInfoScreen from './src/screens/FilmInfoScreen';
+import TabNavigation from './src/navigation/TabNavigation';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -32,7 +33,7 @@ function SearchStackScreen() {
 function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
+{/*       <NavigationContainer>
         <Tab.Navigator screenOptions={{headerShown: false}}>
           <Tab.Screen
             name="TrendingStackScreen"
@@ -41,6 +42,8 @@ function App() {
           <Tab.Screen name="SearchStackScreen" component={SearchStackScreen} />
         </Tab.Navigator>
       </NavigationContainer>
+ */}
+      <TabNavigation />
     </Provider>
   );
 }

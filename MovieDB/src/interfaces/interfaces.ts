@@ -1,6 +1,7 @@
 export interface FilmCellProps {
   item: FilmModel;
   onPress?: () => void;
+  imageUrl: string;
 }
 
 export interface FilmListState {
@@ -12,6 +13,16 @@ export interface FilmListState {
 export interface FilmInfoState {
   movie: InfoFilmModel;
   tv: InfoTVModel;
+}
+
+export interface TrendingState {
+  item: Array<FilmModel>;
+  loading: boolean;
+  error: string | undefined;
+}
+
+export interface SearchState {
+  item: Array<FilmModel>;
   loading: boolean;
   error: string | null;
 }
@@ -144,4 +155,31 @@ export interface VideoModel {
   name: string | undefined;
   key: string;
   official?: boolean;
+}
+
+export interface RequestTokenResponse {
+  success: string;
+  request_token: string;
+}
+
+export interface RequestSessionResponse {
+  success: string;
+  session_id: string;
+}
+
+export interface BookmarksState {
+  items: Array<FilmModel>;
+  sessionInitiated: boolean;
+  session_id: string;
+  error: string | null;
+}
+
+export interface UserAccount {
+  id: string;
+}
+
+export interface BookmarksCellProps {
+  item: FilmModel;
+  listLength: number;
+  itemIndex: number;
 }

@@ -5,22 +5,26 @@ import {Stack} from 'react-native-spacing-system';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
 import FilmCell from '../components/FilmCell/FilmCell';
 import SearchBar from '../components/SearchBar/SearchBar';
-import {useAppDispatch, useAppSelector} from '../hooks';
-import {FilmModel} from '../interfaces';
+import {useAppDispatch, useAppSelector} from '../hooks/hooks';
+import useDelay from '../hooks/useDelay';
+import {FilmModel} from '../interfaces/interfaces';
 import {searchFilms} from '../redux/actions/async/searchFilms';
 import {emptyList} from '../redux/reducers/searchReducer';
 
 const SearchScreen: React.FC<{}> = ({navigation, route}) => {
+  const pathForImage = 'https://image.tmdb.org/t/p/original';
+
   const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState<string>('');
   const searchingFilms = useAppSelector(state => state.search.item);
   const [isFocusOnSearch, setIsFocusOnSearch] = useState<boolean>(false);
+  let valueInputWithDelay = useDelay(inputValue, 1000);
 
   useEffect(() => {
-    if (inputValue !== '') {
-      dispatch(searchFilms(inputValue));
+    if (valueInputWithDelay !== '') {
+      dispatch(searchFilms(valueInputWithDelay));
     }
-  }, [dispatch, inputValue]);
+  }, [dispatch, valueInputWithDelay]);
 
   const onChangeValueSearch = (value: string): void => {
     setInputValue(value);
@@ -42,10 +46,13 @@ const SearchScreen: React.FC<{}> = ({navigation, route}) => {
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {
     const {item} = itemInfo;
+    let imageUrl: string = `${pathForImage}${item.imageUrl}`;
+
     return (
       <View style={styles.imageContainerStyle}>
         <FilmCell
           item={item}
+          imageUrl={imageUrl}
           onPress={() =>
             navigation.navigate('FilmInfoScreen', {
               id: item.id,
@@ -64,7 +71,7 @@ const SearchScreen: React.FC<{}> = ({navigation, route}) => {
     </View>
   );
 
-  const ItemSeparatorComponent = () => <Stack size={20} />;
+  const ItemSeparatorComponent = () => <Stack size={10} />;
 
   return (
     <BackgroundForm
@@ -96,6 +103,7 @@ const SearchScreen: React.FC<{}> = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
   emptyContainerStyle: {
+    marginTop: 20,
     flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
@@ -116,9 +124,8 @@ const styles = StyleSheet.create({
   viewPrepearComponent: {
     width: '100%',
     alignItems: 'center',
-    flexWrap: 'nowrap',
     zIndex: 1000,
-    marginTop: 15,
+    marginTop: 10,
   },
   heightListSearchingStyle: {
     height: '85%',

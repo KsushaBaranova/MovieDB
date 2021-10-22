@@ -1,22 +1,27 @@
 import {StyleSheet} from 'react-native';
+import {fontNormalize} from '../../helper/normalize';
 
 const styles = StyleSheet.create({
   viewContainerStyle: {
     paddingHorizontal: 15,
-  //  paddingTop: 5,
-   // paddingBottom: 5,
   },
   textNameStyle: {
-    fontSize: 15,
+    fontSize: fontNormalize(13),
+    fontWeight: '700',
     color: 'black',
-    fontWeight: 'bold',
+    textAlign: 'center',
   },
   textDescriptionStyle: {
-    fontSize: 14,
+    fontSize: fontNormalize(12),
     textAlign: 'justify',
+    fontWeight: '500',
+    lineHeight: 18,
+    color: 'rgb(58,77,95)',
   },
   viewTitleStyle: {
-    paddingBottom: 5,
+    paddingBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
 });
 

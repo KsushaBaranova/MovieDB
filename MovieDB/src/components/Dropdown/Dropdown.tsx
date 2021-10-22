@@ -22,7 +22,8 @@ const Dropdown: React.FC<DropdownProps> = ({value, setValue, data}) => {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
-        style={styles.containerStyle}
+        style={styles.dropdownStyle}
+        textStyle={styles.dropdownTextStyle}
       />
     </View>
   );

@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {FilmModel} from '../../../interfaces';
-import {filmApi} from '../../../services/apiFilm';
+import {Alert} from 'react-native';
+import {FilmModel} from '../../../interfaces/interfaces';
+import {filmApi} from '../../../services/network';
 
 export const fetchTrending = createAsyncThunk<Array<FilmModel>, string[]>(
   'trending/fetchTrending',
@@ -15,8 +16,14 @@ export const fetchTrending = createAsyncThunk<Array<FilmModel>, string[]>(
         description: item.overview,
       }));
     } catch (error) {
-      console.log('fetchTrending error: ', error);
-      return thunkApi.rejectWithValue(error);
+      console.log('Fetch trending error: ', error);
+      return thunkApi.rejectWithValue(
+        Alert.alert(
+          'Sorry, there was an error. We cannot show a list of trends.',
+          error as string,
+          [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+        ),
+      );
     }
   },
 );
