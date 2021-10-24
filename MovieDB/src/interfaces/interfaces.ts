@@ -84,3 +84,9 @@ export interface BookmarksCellProps {
   listLength: number;
   itemIndex: number;
 }
+
+export interface SimilarListState {
+  items: Array<FilmModel>;
+  loading: boolean;
+  error: string | null;
+}

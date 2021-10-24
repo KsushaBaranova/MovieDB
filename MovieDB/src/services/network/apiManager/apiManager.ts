@@ -13,6 +13,7 @@ export enum RequestType {
   createSession,
   fetchBookmarks,
   fetchAccount,
+  fetchSimilarMovies,
 }
 
 const getRequestService = (requestType: RequestType) => {
@@ -29,6 +30,8 @@ const getRequestService = (requestType: RequestType) => {
       return 'account/';
     case RequestType.fetchAccount:
       return 'account';
+    case RequestType.fetchSimilarMovies:
+      return 'movie/';
     default:
       return '';
   }
@@ -47,6 +50,8 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
       return serviceType;
     case RequestType.fetchBookmarks:
       return serviceType + params[0] + '/favorite/movies';
+    case RequestType.fetchSimilarMovies:
+      return serviceType + params[0] + '/similar';
     default:
       return '';
   }
@@ -66,6 +71,7 @@ const getRequestType = (requestType: RequestType) => {
     case RequestType.createRequestToken:
     case RequestType.fetchBookmarks:
     case RequestType.fetchAccount:
+    case RequestType.fetchSimilarMovies:
       return 'GET';
     case RequestType.createSession:
       return 'POST';

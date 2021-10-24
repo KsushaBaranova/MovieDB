@@ -59,6 +59,13 @@ class FilmApi<T> implements FilmApiInterface<T> {
       urlParams: {session_id: id},
     });
   }
+
+  async fetchSimilar(movie_id: string): Promise<T> {
+    return request<T>(RequestType.fetchSimilarMovies, {
+      token: this.token,
+      params: [movie_id],
+    });
+  }
 }
 
 export const filmApi = new FilmApi<TrendingFilmResponse>();
@@ -67,3 +74,4 @@ export const requestTokenApi = new FilmApi<RequestTokenResponse>();
 export const requestSessionIdApi = new FilmApi<RequestSessionResponse>();
 export const bookmarksApi = new FilmApi<TrendingFilmResponse>();
 export const accountApi = new FilmApi<UserAccount>();
+export const similarMovieshApi = new FilmApi<SearchingFilmResponse>();

@@ -6,16 +6,31 @@ import {
   FlatList,
   StyleSheet,
   Dimensions,
+  Platform,
 } from 'react-native';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
 import BookmarkCell from '../components/BookmarkCell/BookmarkCell';
 import {useAppDispatch, useAppSelector} from '../hooks/hooks';
 import {FilmModel} from '../interfaces/interfaces';
 import {createSession} from '../redux/actions/async/createSession';
+import {createSessionToken} from '../redux/actions/async/createSessionToken';
 import {fetchBookmarks} from '../redux/actions/async/fetchBookmarks';
 
 let bookmarksFetched = false;
 const deviceWidth = Dimensions.get('window').width;
+
+const tokenConfirmationRequest = async (token: string) => {
+  Platform.OS === 'ios'
+    ? await InAppBrowser.openAuth(
+        `https://www.themoviedb.org/authenticate/${token}`,
+        '',
+      )
+    : await InAppBrowser.open(
+        `https://www.themoviedb.org/authenticate/${token}`,
+      );
+  return token;
+};
 
 const BookmarksScreen = () => {
   const dispatch = useAppDispatch();
@@ -24,9 +39,14 @@ const BookmarksScreen = () => {
   const sessionInitiated = useAppSelector(
     state => state.bookmarks.sessionInitiated,
   );
+  let refreshing = false;
 
   !sessionInitiated
-    ? dispatch(createSession())
+    ? dispatch(createSessionToken())
+        .then(response => tokenConfirmationRequest(response.payload as string))
+        .then(response => {
+          dispatch(createSession(response));
+        })
     : !bookmarksFetched
     ? (dispatch(fetchBookmarks(sessionId)), (bookmarksFetched = true))
     : null;
@@ -65,6 +85,8 @@ const BookmarksScreen = () => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={() => dispatch(fetchBookmarks(sessionId))}
       />
     </BackgroundForm>
   );
