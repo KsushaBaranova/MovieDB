@@ -6,9 +6,11 @@ import SearchScreen from '../screens/SearchScreen';
 import BookmarksScreen from '../screens/BookmarksScreen';
 import {
   bookmarksIcon,
+  mapIcon,
   searchIcon,
   trendingIcon,
 } from '../components/TabNavBarIcons/TabNavBarIcons';
+import MapScreen from '../screens/MapScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +41,15 @@ function TabNavigation() {
           component={BookmarksScreen}
           options={{
             tabBarIcon: bookmarksIcon,
+            tabBarShowLabel: false,
+            tabBarActiveBackgroundColor: 'rgba(203,178,184,0.6)',
+          }}
+        />
+        <Tab.Screen
+          name="NavigationScreen"
+          component={MapScreen}
+          options={{
+            tabBarIcon: mapIcon,
             tabBarShowLabel: false,
             tabBarActiveBackgroundColor: 'rgba(203,178,184,0.6)',
           }}

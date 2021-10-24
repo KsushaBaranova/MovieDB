@@ -22,3 +22,10 @@ export const bookmarksIcon = () => (
     style={tabNavBarIconStyles.container}
   />
 );
+
+export const mapIcon = () => (
+  <Image
+    source={require('../../../image/navigation.png')}
+    style={tabNavBarIconStyles.container}
+  />
+);
