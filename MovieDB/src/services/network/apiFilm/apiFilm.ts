@@ -1,15 +1,18 @@
 import {request, RequestType} from '..';
 import {
+  FilmInfoResponse,
+  ListFilmResponse,
   RequestSessionResponse,
   RequestTokenResponse,
-  SearchingFilmResponse,
-  TrendingFilmResponse,
+  TVInfoResponse,
   UserAccount,
 } from '../../../interfaces/interfaces';
 
 export interface FilmApiInterface<T> {
   fetchTrending(orderBy: string[]): Promise<T>;
   searchFilms(query: object): Promise<T>;
+  fetchFilmInfo(filmId: string[], append: object): Promise<T>;
+  fetchTVInfo(filmId: string[], append: object): Promise<T>;
 }
 
 class FilmApi<T> implements FilmApiInterface<T> {
@@ -59,11 +62,29 @@ class FilmApi<T> implements FilmApiInterface<T> {
       urlParams: {session_id: id},
     });
   }
+
+  async fetchFilmInfo(filmId: string[], append: object): Promise<T> {
+    return request<T>(RequestType.fetchFilmInfo, {
+      token: this.token,
+      params: filmId,
+      urlParams: append,
+    });
+  }
+
+  async fetchTVInfo(filmId: string[], append: object): Promise<T> {
+    return request<T>(RequestType.fetchTVInfo, {
+      token: this.token,
+      params: filmId,
+      urlParams: append,
+    });
+  }
 }
 
-export const filmApi = new FilmApi<TrendingFilmResponse>();
-export const searchApi = new FilmApi<SearchingFilmResponse>();
+export const filmApi = new FilmApi<ListFilmResponse>();
+export const searchApi = new FilmApi<ListFilmResponse>();
 export const requestTokenApi = new FilmApi<RequestTokenResponse>();
 export const requestSessionIdApi = new FilmApi<RequestSessionResponse>();
-export const bookmarksApi = new FilmApi<TrendingFilmResponse>();
+export const bookmarksApi = new FilmApi<ListFilmResponse>();
 export const accountApi = new FilmApi<UserAccount>();
+export const infoFilmApi = new FilmApi<FilmInfoResponse>();
+export const infoTVApi = new FilmApi<TVInfoResponse>();

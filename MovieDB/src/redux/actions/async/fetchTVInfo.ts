@@ -1,8 +1,8 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {InfoTVModel} from '../../../interfaces';
-import {infoTVApi} from '../../../services/apiFilm';
+import {InfoFilmModel, VideoResponse} from '../../../interfaces/interfaces';
+import {infoTVApi} from '../../../services/network';
 
-export const fetchTVInfo = createAsyncThunk<InfoTVModel, string[]>(
+export const fetchTVInfo = createAsyncThunk<InfoFilmModel, string[]>(
   'info/fetchTVInfo',
   async (filmId, thunkApi) => {
     try {
@@ -10,20 +10,16 @@ export const fetchTVInfo = createAsyncThunk<InfoTVModel, string[]>(
         append_to_response: 'videos',
       };
       const response = await infoTVApi.fetchTVInfo(filmId, append);
-      console.log(response.videos);
 
       return {
         id: response.id,
-        imageUrl: response.poster_path,
         name: response.name,
         description: response.overview,
         genres: response.genres.map(item => item.name),
         dateRealese: response.first_air_date.slice(0, 4),
         rating: response.vote_average,
-        numberOfEpisodes: response.number_of_episodes,
-        numberOfSeasons: response.number_of_seasons,
         country: response.production_countries.map(item => item.name),
-        videos: response.videos.results[0],
+        videos: findTrailer(response.videos),
       };
     } catch (error) {
       console.log('Fetch TV Info error: ', error);
@@ -31,3 +27,10 @@ export const fetchTVInfo = createAsyncThunk<InfoTVModel, string[]>(
     }
   },
 );
+
+const findTrailer = (videos: VideoResponse) => {
+  let trailers = videos.results.filter(
+    item => item.type.includes('Trailer') || item.type.includes('Teaser'),
+  );
+  return trailers[0];
+};

@@ -1,69 +1,60 @@
 import React, {useEffect} from 'react';
-import {Dimensions, TouchableOpacity, View} from 'react-native';
+import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
 import {StyleSheet, Text} from 'react-native';
 import WebView from 'react-native-webview';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
-import InformationFilm from '../components/InformationFilm/InformationFilm';
-import InformationTV from '../components/InformationTV/InformationTV';
-import {useAppDispatch, useAppSelector} from '../hooks';
+import {useAppDispatch, useAppSelector} from '../hooks/hooks';
 import {fetchFilmInfo} from '../redux/actions/async/fetchFilmInfo';
 import {fetchTVInfo} from '../redux/actions/async/fetchTVInfo';
+import Information from '../components/Information/Information';
 
 const FilmInfoScreen: React.FC<{}> = ({route}) => {
-  let {id: filmId, nameButton, mediaType} = route.params;
-  console.log(mediaType);
+  let {id, nameButton, mediaType} = route.params;
 
   const dispatch = useAppDispatch();
-  const infoFilm = useAppSelector(state => state.info.movie);
-  const infoTV = useAppSelector(state => state.info.tv);
+  const info = useAppSelector(state => state.info.item);
 
   useEffect(() => {
     if (mediaType === 'tv') {
-      dispatch(fetchTVInfo([filmId]));
+      dispatch(fetchTVInfo([id]));
     } else {
-      dispatch(fetchFilmInfo([filmId]));
+      dispatch(fetchFilmInfo([id]));
     }
-  }, [dispatch, filmId, mediaType]);
-
-  console.log(infoFilm);
-  console.log(infoTV);
+  }, [dispatch, id, mediaType]);
 
   return (
     <BackgroundForm
       headerProps={{
-        title: mediaType === 'tv' ? infoTV.name : infoFilm.name,
+        title: info.name,
       }}
       styleHeight={styles.heightInfoStyle}>
-      <View style={styles.viewContainerStyle}>
+      <ScrollView
+        style={styles.scrollViewContainerStyle}
+        contentContainerStyle={styles.scrollViewContantStyle}
+        alwaysBounceVertical={false}>
         <View style={styles.viewContainerVideoStyle}>
           <WebView
             style={styles.viewVideoStyle}
             containerStyle={styles.viewVideoStyle}
             source={{
-              uri: `https://www.youtube.com/embed/${
-                mediaType === 'tv' ? infoTV.videos.key : infoFilm.videos.key
-              }`,
+              uri: `https://www.youtube.com/embed/${info.videos.key}`,
             }}
           />
         </View>
 
-        {mediaType === 'tv' ? (
-          <InformationTV tv={infoTV} />
-        ) : (
-          <InformationFilm film={infoFilm} />
-        )}
+        <Information item={info} />
+
         <View style={styles.viewButtonStyle}>
           <TouchableOpacity style={styles.buttonStyle}>
             <Text style={styles.textButtonStyle}>{nameButton}</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </BackgroundForm>
   );
 };
 
-const screenWidth = Dimensions.get('window').width - 15;
-const trailerHeight = 250;
+const screenWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   heightInfoStyle: {
@@ -71,7 +62,7 @@ const styles = StyleSheet.create({
   },
   viewVideoStyle: {
     flex: 0,
-    height: trailerHeight,
+    height: 250,
     width: screenWidth,
   },
   viewContainerVideoStyle: {
@@ -81,12 +72,15 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
   },
-  viewContainerStyle: {
+  scrollViewContainerStyle: {
     flex: 1,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     paddingTop: 10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+  },
+  scrollViewContantStyle: {
+    flexGrow: 1,
   },
   buttonStyle: {
     backgroundColor: '#d0abb4',
@@ -104,10 +98,11 @@ const styles = StyleSheet.create({
   },
   viewButtonStyle: {
     flex: 1,
+    marginTop: 15,
+    marginBottom: 15,
     flexDirection: 'column',
     alignSelf: 'center',
     justifyContent: 'flex-end',
-    marginBottom: 15,
   },
 });
 

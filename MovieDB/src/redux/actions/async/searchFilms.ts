@@ -11,15 +11,13 @@ export const searchFilms = createAsyncThunk<Array<FilmModel>, string>(
     try {
       const {results} = await searchApi.searchFilms(query);
 
-      let obj = results.map(item => ({
+      return results.map(item => ({
         id: item.id,
         imageUrl: item.poster_path,
         name: item.title || item.name,
         description: item.overview,
         mediaType: item.media_type,
       }));
-      console.log(obj);
-      return obj;
     } catch (error) {
       console.log('Search films error: ', error);
       return thunkApi.rejectWithValue(

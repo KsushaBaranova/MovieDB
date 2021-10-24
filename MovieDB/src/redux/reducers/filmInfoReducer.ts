@@ -1,34 +1,21 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {FilmInfoState} from '../../interfaces';
+import {FilmInfoState} from '../../interfaces/interfaces';
 import {fetchFilmInfo} from '../actions/async/fetchFilmInfo';
 import {fetchTVInfo} from '../actions/async/fetchTVInfo';
 
 const initialState: FilmInfoState = {
-  movie: {
+  item: {
     id: '',
-    imageUrl: '',
     name: '',
     description: '',
     genres: [''],
     dateRealese: '',
-    rating: 0,
-    videos: {name: '', key: ''},
-  },
-  tv: {
-    id: '',
-    imageUrl: '',
-    name: '',
-    description: '',
-    genres: [''],
-    dateRealese: '',
-    rating: 0,
-    numberOfEpisodes: 0,
-    numberOfSeasons: 0,
     country: [],
+    rating: 0,
     videos: {name: '', key: ''},
   },
   loading: false,
-  error: null,
+  error: undefined,
 };
 
 export const infoSlice = createSlice({
@@ -37,10 +24,16 @@ export const infoSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchFilmInfo.fulfilled, (state, action) => {
-      state.movie = action.payload;
+      state.item = action.payload;
+    });
+    builder.addCase(fetchFilmInfo.rejected, (state, {error}) => {
+      state.error = error.message;
     });
     builder.addCase(fetchTVInfo.fulfilled, (state, action) => {
-      state.tv = action.payload;
+      state.item = action.payload;
+    });
+    builder.addCase(fetchTVInfo.rejected, (state, {error}) => {
+      state.error = error.message;
     });
   },
 });

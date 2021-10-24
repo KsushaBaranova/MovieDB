@@ -8,13 +8,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  viewYearAndContryStyle: {
+  viewTitleAndYearStyle: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  textDescriptionStyle: {
+  viewRatingStyle: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconStyle: {
+    height: 30,
+    width: 30,
+  },
+  textStyle: {
     textAlign: 'justify',
     fontSize: 16,
     lineHeight: 18,
@@ -22,30 +32,34 @@ const styles = StyleSheet.create({
   },
   textTitleStyle: {
     textAlign: 'justify',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
-    lineHeight: 18,
     color: 'rgb(58,77,95)',
-    marginBottom: 5,
+  },
+  textYearStyle: {
+    textAlign: 'justify',
+    fontSize: 18,
+    color: 'rgb(58,77,95)',
   },
   viewInfoStyle: {
     paddingHorizontal: 15,
   },
-  textGenreStyle: {
-    textAlign: 'left',
-    fontSize: 16,
-    lineHeight: 18,
+  viewGenresAndContriesStyle: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginBottom: 15,
+  },
+  textOverviewStyle: {
+    textAlign: 'justify',
+    fontSize: 18,
+    fontWeight: '600',
     color: 'rgb(58,77,95)',
+    marginBottom: 5,
   },
-  viewGenresStyle: {
-    marginBottom: 10,
-    flexWrap: 'nowrap',
-    flexDirection: 'row',
-  },
-  viewNumbersStyle: {
-    flexWrap: 'nowrap',
-    flexDirection: 'row',
-    marginBottom: 10,
+  textRatingStyle: {
+    textAlign: 'justify',
+    fontSize: 17,
+    color: 'rgb(58,77,95)',
   },
 });
 

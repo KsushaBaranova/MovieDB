@@ -137,7 +137,6 @@ export const request = async <T>(
     domain +
     getRequestString(requestType, params.params || []) +
     paramsString;
-  console.log(url);
   return new Promise<T>((resolve, reject) => {
     fetch(url, {
       method: getRequestType(requestType),
@@ -151,7 +150,6 @@ export const request = async <T>(
           response
             .json()
             .then((data: T) => {
-              console.log(data);
               resolve(data);
             })
             .catch(err => {

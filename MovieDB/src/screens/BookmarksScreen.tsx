@@ -17,7 +17,7 @@ import {fetchBookmarks} from '../redux/actions/async/fetchBookmarks';
 let bookmarksFetched = false;
 const deviceWidth = Dimensions.get('window').width;
 
-const BookmarksScreen = () => {
+const BookmarksScreen = ({navigation, route}) => {
   const dispatch = useAppDispatch();
   const bookmarks = useAppSelector(state => state.bookmarks.items);
   const sessionId = useAppSelector(state => state.bookmarks.session_id);
@@ -38,6 +38,12 @@ const BookmarksScreen = () => {
         item={item}
         itemIndex={itemInfo.index + 1}
         listLength={bookmarks.length}
+        onPress={() =>
+          navigation.navigate('FilmInfoScreen', {
+            id: item.id,
+            nameButton: 'Show similar movies',
+          })
+        }
       />
     );
   };

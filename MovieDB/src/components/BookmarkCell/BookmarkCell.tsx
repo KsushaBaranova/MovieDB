@@ -10,15 +10,13 @@ const BookmarkCell: React.FC<BookmarksCellProps> = (
   props: BookmarksCellProps,
 ) => {
   let {imageUrl} = props.item;
-  const onPress = () => {
-    console.log(props.item.id);
-  };
 
   return (
     <View style={bookmarkCellStyles.container}>
       <TouchableOpacity
-        onPress={onPress}
-        style={bookmarkCellStyles.imageContainer}>
+        onPress={props.onPress}
+        style={bookmarkCellStyles.imageContainer}
+        activeOpacity={0.7}>
         <Image
           style={bookmarkCellStyles.image}
           resizeMode={windowHeight > 850 ? 'cover' : 'center'}
