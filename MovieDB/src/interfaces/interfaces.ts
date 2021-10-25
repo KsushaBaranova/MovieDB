@@ -1,18 +1,19 @@
 export interface FilmCellProps {
   item: FilmModel;
+  onPress?: () => void;
   imageUrl: string;
 }
 
-export interface TrendingState {
+export interface FilmListState {
   item: Array<FilmModel>;
   loading: boolean;
   error: string | undefined;
 }
 
-export interface SearchState {
-  item: Array<FilmModel>;
+export interface FilmInfoState {
+  item: InfoFilmModel;
   loading: boolean;
-  error: string | null;
+  error: string | undefined;
 }
 
 export interface DescriptionCellProps {
@@ -25,9 +26,10 @@ export interface FilmModel {
   imageUrl: string;
   name: string | undefined;
   description: string;
+  mediaType?: string;
 }
 
-export interface TrendingFilmResponse {
+export interface ListFilmResponse {
   results: Array<FilmDataResponse>;
 }
 
@@ -37,6 +39,7 @@ export interface FilmDataResponse {
   overview: string;
   title?: string;
   name?: string;
+  media_type?: string;
 }
 
 export interface SearchBarProps {
@@ -46,16 +49,65 @@ export interface SearchBarProps {
   onBlur?: () => void;
 }
 
-export interface SearchingFilmResponse {
-  results: Array<SearchDataResponse>;
+export interface AccountStateResponse {
+  id: number;
+  favorite: boolean;
+  rated: {
+    value: number;
+  };
+  watchlist: false;
 }
 
-export interface SearchDataResponse {
+export interface FilmInfoResponse {
   id: string;
-  poster_path: string;
   overview: string;
-  title?: string;
-  name?: string;
+  title: string;
+  genres: Array<{name: string}>;
+  release_date: string;
+  vote_average: number;
+  production_countries: Array<{name: string}>;
+  videos: VideoResponse;
+}
+
+export interface TVInfoResponse {
+  id: string;
+  overview: string;
+  name: string;
+  genres: Array<{name: string}>;
+  first_air_date: string;
+  number_of_episodes: number;
+  number_of_seasons: number;
+  vote_average: number;
+  production_countries: Array<{name: string}>;
+  videos: VideoResponse;
+}
+
+export interface VideoResponse {
+  results: Array<{
+    name: string;
+    key: string;
+    id: string;
+    type: string;
+  }>;
+}
+
+export interface InfoFilmModel {
+  id: string;
+  name: string | undefined;
+  description: string;
+  genres: string[];
+  dateRealese: string;
+  rating: number;
+  country: string[];
+  videos: VideoModel | undefined;
+  account_state?: AccountStateResponse;
+  number_of_episodes?: number;
+  number_of_seasons?: number;
+}
+
+export interface VideoModel {
+  name: string | undefined;
+  key: string;
 }
 
 export interface RequestTokenResponse {
@@ -72,6 +124,7 @@ export interface BookmarksState {
   items: Array<FilmModel>;
   sessionInitiated: boolean;
   session_id: string;
+  account_id: string;
   error: string | null;
 }
 
@@ -83,6 +136,7 @@ export interface BookmarksCellProps {
   item: FilmModel;
   listLength: number;
   itemIndex: number;
+  onPress?: () => void;
 }
 
 export interface SimilarListState {

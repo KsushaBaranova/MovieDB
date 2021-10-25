@@ -8,10 +8,11 @@ import SearchBar from '../components/SearchBar/SearchBar';
 import {useAppDispatch, useAppSelector} from '../hooks/hooks';
 import useDelay from '../hooks/useDelay';
 import {FilmModel} from '../interfaces/interfaces';
+import {FilmInfoProps} from '../navigation/StackNavigation';
 import {searchFilms} from '../redux/actions/async/searchFilms';
 import {emptyList} from '../redux/reducers/searchReducer';
 
-const SearchScreen: React.FC<{}> = () => {
+const SearchScreen = ({navigation}: FilmInfoProps) => {
   const pathForImage = 'https://image.tmdb.org/t/p/original';
 
   const dispatch = useAppDispatch();
@@ -50,7 +51,17 @@ const SearchScreen: React.FC<{}> = () => {
 
     return (
       <View style={styles.imageContainerStyle}>
-        <FilmCell item={item} imageUrl={imageUrl} />
+        <FilmCell
+          item={item}
+          imageUrl={imageUrl}
+          onPress={() =>
+            navigation.push('FilmInfoScreen', {
+              id: item.id,
+              nameButton: 'Show similar movies',
+              mediaType: item.mediaType ? item.mediaType : '',
+            })
+          }
+        />
       </View>
     );
   };

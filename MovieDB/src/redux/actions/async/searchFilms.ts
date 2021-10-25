@@ -16,6 +16,7 @@ export const searchFilms = createAsyncThunk<Array<FilmModel>, string>(
         imageUrl: item.poster_path,
         name: item.title || item.name,
         description: item.overview,
+        mediaType: item.media_type,
       }));
     } catch (error) {
       console.log('Search films error: ', error);

@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {BookmarksState} from '../../interfaces/interfaces';
 import {createSession} from '../actions/async/createSession';
+import {fetchAccount} from '../actions/async/fetchAccount';
 import {fetchBookmarks} from '../actions/async/fetchBookmarks';
 
 const initialState: BookmarksState = {
@@ -8,6 +9,7 @@ const initialState: BookmarksState = {
   sessionInitiated: false,
   error: null,
   session_id: '',
+  account_id: '',
 };
 
 export const bookmarksSlice = createSlice({
@@ -21,6 +23,9 @@ export const bookmarksSlice = createSlice({
     });
     builder.addCase(fetchBookmarks.fulfilled, (state, action) => {
       state.items = action.payload;
+    });
+    builder.addCase(fetchAccount.fulfilled, (state, action) => {
+      state.account_id = action.payload.id;
     });
   },
 });

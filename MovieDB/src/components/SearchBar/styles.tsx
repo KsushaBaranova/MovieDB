@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     borderRadius: 20,
     fontSize: fontNormalize(12),
+    color: 'black',
   },
 });
 

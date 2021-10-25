@@ -5,12 +5,11 @@ import similarMoviesStyles from './styles';
 
 const SimilarMovieCell: React.FC<FilmCellProps> = (props: FilmCellProps) => {
   let {item, imageUrl} = props;
-  const onPress = () => {
-    console.log(item.id);
-  };
 
   return (
-    <TouchableOpacity onPress={onPress} style={similarMoviesStyles.container}>
+    <TouchableOpacity
+      onPress={props.onPress}
+      style={similarMoviesStyles.container}>
       <View style={similarMoviesStyles.imageContainer}>
         <Image
           style={similarMoviesStyles.image}

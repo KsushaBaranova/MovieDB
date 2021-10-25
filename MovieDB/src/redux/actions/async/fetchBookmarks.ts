@@ -1,17 +1,18 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {Alert} from 'react-native';
+import {useAppSelector} from '../../../hooks/hooks';
 import {FilmModel} from '../../../interfaces/interfaces';
-import {accountApi, bookmarksApi} from '../../../services/network';
+import {bookmarksApi} from '../../../services/network';
 
 export const fetchBookmarks = createAsyncThunk<Array<FilmModel>, string>(
   'bookmarks/fetchBookmarks',
   async (session_id, thunkApi) => {
     try {
-      const accountId = await accountApi.fetchAccount(session_id);
+      const accountId = useAppSelector(state => state.bookmarks.account_id);
 
       const bookmarks = await bookmarksApi.fetchBookmarks(
         session_id,
-        accountId.id,
+        accountId,
       );
       if (!bookmarks.results) {
         throw bookmarks;

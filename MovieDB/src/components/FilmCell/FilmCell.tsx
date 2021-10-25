@@ -7,12 +7,8 @@ import styles from './styles';
 const FilmCell: React.FC<FilmCellProps> = (props: FilmCellProps) => {
   let {item, imageUrl} = props;
 
-  const onPress = () => {
-    console.log(props.item.id);
-  };
-
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
+    <TouchableOpacity onPress={props.onPress} activeOpacity={0.7}>
       <View style={styles.viewContainerStyle}>
         <View style={styles.viewImageStyle}>
           <Image

@@ -8,10 +8,10 @@ import Dropdown from '../components/Dropdown/Dropdown';
 import FilmCell from '../components/FilmCell/FilmCell';
 import {useAppDispatch, useAppSelector} from '../hooks/hooks';
 import {FilmModel} from '../interfaces/interfaces';
+import {FilmInfoProps} from '../navigation/StackNavigation';
 import {fetchTrending} from '../redux/actions/async/fetchTrending';
 
 enum Media {
-  all = 'All',
   movie = 'Movie',
   tv = 'TV',
 }
@@ -21,15 +21,15 @@ enum Time {
   week = 'Week',
 }
 
-const TrendingScreen: React.FC<{}> = () => {
+const TrendingScreen = ({navigation}: FilmInfoProps) => {
   const pathForImage = 'https://image.tmdb.org/t/p/original';
+
   const dispatch = useAppDispatch();
   const trendingFilms = useAppSelector(state => state.trending.item);
-  const [valueMediaType, setValueMediaType] = useState('all');
+  const [valueMediaType, setValueMediaType] = useState('movie');
   const [valueTimeWindow, setValueTimeWindow] = useState('week');
 
   const mediaType: Array<ItemType> = [
-    {label: Media.all, value: Media.all.toLowerCase()},
     {label: Media.movie, value: Media.movie.toLowerCase()},
     {label: Media.tv, value: Media.tv.toLowerCase()},
   ];
@@ -49,7 +49,17 @@ const TrendingScreen: React.FC<{}> = () => {
 
     return (
       <View style={styles.imageContainerStyle}>
-        <FilmCell item={item} imageUrl={imageUrl} />
+        <FilmCell
+          item={item}
+          imageUrl={imageUrl}
+          onPress={() =>
+            navigation.push('FilmInfoScreen', {
+              id: item.id,
+              nameButton: 'Add to bookmarks',
+              mediaType: valueMediaType,
+            })
+          }
+        />
       </View>
     );
   };

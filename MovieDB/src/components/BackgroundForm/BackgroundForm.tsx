@@ -3,7 +3,7 @@ import {View, Text, ImageBackground, ViewStyle} from 'react-native';
 import styles from './styles';
 
 export interface BackgroundFormProps {
-  headerProps: {title: string};
+  headerProps: {title: string | undefined};
   prepearComponent?: JSX.Element;
   styleHeight?: ViewStyle;
 }

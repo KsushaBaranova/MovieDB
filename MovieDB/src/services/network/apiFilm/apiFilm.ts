@@ -1,15 +1,19 @@
 import {request, RequestType} from '..';
 import {
+  AccountStateResponse,
+  FilmInfoResponse,
+  ListFilmResponse,
   RequestSessionResponse,
   RequestTokenResponse,
-  SearchingFilmResponse,
-  TrendingFilmResponse,
+  TVInfoResponse,
   UserAccount,
 } from '../../../interfaces/interfaces';
 
 export interface FilmApiInterface<T> {
   fetchTrending(orderBy: string[]): Promise<T>;
   searchFilms(query: object): Promise<T>;
+  fetchFilmInfo(filmId: string[], append: object): Promise<T>;
+  fetchTVInfo(filmId: string[], append: object): Promise<T>;
 }
 
 class FilmApi<T> implements FilmApiInterface<T> {
@@ -60,18 +64,52 @@ class FilmApi<T> implements FilmApiInterface<T> {
     });
   }
 
+  async fetchFilmInfo(filmId: string[], append: object): Promise<T> {
+    return request<T>(RequestType.fetchFilmInfo, {
+      token: this.token,
+      params: filmId,
+      urlParams: append,
+    });
+  }
+
+  async fetchTVInfo(filmId: string[], append: object): Promise<T> {
+    return request<T>(RequestType.fetchTVInfo, {
+      token: this.token,
+      params: filmId,
+      urlParams: append,
+    });
+  }
+
   async fetchSimilar(movie_id: string): Promise<T> {
     return request<T>(RequestType.fetchSimilarMovies, {
       token: this.token,
       params: [movie_id],
     });
   }
+
+  async addBookmark(movie_id: string, media_type: string): Promise<T> {
+    return request<T>(RequestType.fetchSimilarMovies, {
+      token: this.token,
+      body: {media_type: media_type, media_id: movie_id, favorite: true},
+    });
+  }
+
+  async fetchAccountState(filmId: string[], session_id: string): Promise<T> {
+    return request<T>(RequestType.fetchFilmInfo, {
+      token: this.token,
+      params: filmId,
+      urlParams: {session_id: session_id},
+    });
+  }
 }
 
-export const filmApi = new FilmApi<TrendingFilmResponse>();
-export const searchApi = new FilmApi<SearchingFilmResponse>();
+export const filmApi = new FilmApi<ListFilmResponse>();
+export const searchApi = new FilmApi<ListFilmResponse>();
 export const requestTokenApi = new FilmApi<RequestTokenResponse>();
 export const requestSessionIdApi = new FilmApi<RequestSessionResponse>();
-export const bookmarksApi = new FilmApi<TrendingFilmResponse>();
+export const bookmarksApi = new FilmApi<ListFilmResponse>();
 export const accountApi = new FilmApi<UserAccount>();
-export const similarMovieshApi = new FilmApi<SearchingFilmResponse>();
+export const infoFilmApi = new FilmApi<FilmInfoResponse>();
+export const infoTVApi = new FilmApi<TVInfoResponse>();
+export const accountStateApi = new FilmApi<AccountStateResponse>();
+export const similarMoviesApi = new FilmApi<ListFilmResponse>();

@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {TrendingState} from '../../interfaces/interfaces';
+import {FilmListState} from '../../interfaces/interfaces';
 import {fetchTrending} from '../actions/async/fetchTrending';
 
-const initialState: TrendingState = {
+const initialState: FilmListState = {
   item: [],
   loading: false,
   error: undefined,

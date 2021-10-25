@@ -6,17 +6,19 @@ import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
 import SimilarMovieCell from '../components/SimilarMovieCell/SimilarMovieCell';
 import {useAppDispatch, useAppSelector} from '../hooks/hooks';
 import {FilmModel} from '../interfaces/interfaces';
+import {SimilarMoviesProps} from '../navigation/StackNavigation';
 import {fetchSimilarMovies} from '../redux/actions/async/fetchSimilar';
 
-const SimilarMoviesScreen: React.FC<{}> = () => {
+const SimilarMoviesScreen = ({route, navigation}: SimilarMoviesProps) => {
   const dispatch = useAppDispatch();
   const similarFilms = useAppSelector(state => state.similar.items);
   const numColumns = 2;
+  const itemId = route.params.id;
   let refreshing = false;
 
   useEffect(() => {
-    dispatch(fetchSimilarMovies('385128')); //hardcoded value to change for movie id
-  }, [dispatch]);
+    dispatch(fetchSimilarMovies(itemId)); //hardcoded value to change for movie id
+  }, [dispatch, itemId]);
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {
     const pathForImage = 'https://image.tmdb.org/t/p/original';
@@ -25,7 +27,17 @@ const SimilarMoviesScreen: React.FC<{}> = () => {
 
     return (
       <View style={styles.itemContainer}>
-        <SimilarMovieCell item={item} imageUrl={imageUrl} />
+        <SimilarMovieCell
+          item={item}
+          imageUrl={imageUrl}
+          onPress={() =>
+            navigation.push('FilmInfoScreen', {
+              id: item.id,
+              nameButton: 'Add to bookmarks',
+              mediaType: item.mediaType ? item.mediaType : '',
+            })
+          }
+        />
       </View>
     );
   };
@@ -53,7 +65,7 @@ const SimilarMoviesScreen: React.FC<{}> = () => {
         ListEmptyComponent={ListEmptyComponent}
         ItemSeparatorComponent={ItemSeparatorComponent}
         refreshing={refreshing}
-        onRefresh={() => dispatch(fetchSimilarMovies('385128'))}
+        onRefresh={() => dispatch(fetchSimilarMovies(itemId))}
       />
     </BackgroundForm>
   );

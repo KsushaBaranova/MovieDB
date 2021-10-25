@@ -1,7 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {Alert} from 'react-native';
 import {FilmModel} from '../../../interfaces/interfaces';
-import {similarMovieshApi} from '../../../services/network/apiFilm';
+import {similarMoviesApi} from '../../../services/network';
 
 export const fetchSimilarMovies = createAsyncThunk<Array<FilmModel>, string>(
   'similar/fetchSimilarMovies',
@@ -9,7 +9,7 @@ export const fetchSimilarMovies = createAsyncThunk<Array<FilmModel>, string>(
     const id = inputValue;
 
     try {
-      const {results} = await similarMovieshApi.fetchSimilar(id);
+      const {results} = await similarMoviesApi.fetchSimilar(id);
 
       return results.map(item => ({
         id: item.id,
