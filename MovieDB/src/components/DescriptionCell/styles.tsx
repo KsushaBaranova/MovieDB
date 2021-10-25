@@ -1,19 +1,18 @@
-import {Dimensions, StyleSheet} from 'react-native';
-
-const windowHeight = Dimensions.get('window').height;
+import {StyleSheet} from 'react-native';
+import {fontNormalize} from '../../helper/normalize';
 
 const styles = StyleSheet.create({
   viewContainerStyle: {
     paddingHorizontal: 15,
   },
   textNameStyle: {
-    fontSize: windowHeight < 900 ? 15 : 16,
+    fontSize: fontNormalize(13),
     fontWeight: '700',
     color: 'black',
     textAlign: 'center',
   },
   textDescriptionStyle: {
-    fontSize: windowHeight < 900 ? 14 : 15,
+    fontSize: fontNormalize(12),
     textAlign: 'justify',
     fontWeight: '500',
     lineHeight: 18,

@@ -1,6 +1,6 @@
 import React from 'react';
 import {TextInput} from 'react-native';
-import {SearchBarProps} from '../../interfaces';
+import {SearchBarProps} from '../../interfaces/interfaces';
 import styles from './styles';
 
 const SearchBar: React.FC<SearchBarProps> = ({

@@ -1,11 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {SearchState} from '../../interfaces';
+import {FilmListState} from '../../interfaces/interfaces';
 import {searchFilms} from '../actions/async/searchFilms';
 
-const initialState: SearchState = {
+const initialState: FilmListState = {
   item: [],
   loading: false,
-  error: null,
+  error: undefined,
 };
 
 export const searchSlice = createSlice({
@@ -19,6 +19,9 @@ export const searchSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(searchFilms.fulfilled, (state, action) => {
       state.item = action.payload;
+    });
+    builder.addCase(searchFilms.rejected, (state, {error}) => {
+      state.error = error.message;
     });
   },
 });

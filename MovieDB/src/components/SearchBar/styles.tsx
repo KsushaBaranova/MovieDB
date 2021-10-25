@@ -1,15 +1,15 @@
-import {Dimensions, StyleSheet} from 'react-native';
-
-const windowHeight = Dimensions.get('window').height;
+import {StyleSheet} from 'react-native';
+import {fontNormalize, SCREEN_HEIGHT} from '../../helper/normalize';
 
 const styles = StyleSheet.create({
   textInputStyle: {
     backgroundColor: 'white',
-    height: windowHeight < 900 ? 40 : 45,
+    height: SCREEN_HEIGHT * 0.05,
     width: '90%',
     paddingLeft: 25,
     borderRadius: 20,
-    fontSize: windowHeight < 900 ? 14 : 16,
+    fontSize: fontNormalize(12),
+    color: 'black',
   },
 });
 

@@ -344,7 +344,8 @@
 		};
 		ADC9DDC32298B72B3CF5DC8E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			alwaysOutOfDate = 1;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -354,7 +355,7 @@
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MovieDB/Pods-MovieDB-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MovieDB/Pods-MovieDB-resources.sh\"\n";
 			showEnvVarsInLog = 0;

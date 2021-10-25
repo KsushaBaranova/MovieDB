@@ -1,28 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import {Dimensions, ListRenderItemInfo} from 'react-native';
+import {ListRenderItemInfo} from 'react-native';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {Stack} from 'react-native-spacing-system';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
 import FilmCell from '../components/FilmCell/FilmCell';
 import SearchBar from '../components/SearchBar/SearchBar';
-import {useAppDispatch, useAppSelector} from '../hooks';
-import {FilmModel} from '../interfaces';
+import {useAppDispatch, useAppSelector} from '../hooks/hooks';
+import useDelay from '../hooks/useDelay';
+import {FilmModel} from '../interfaces/interfaces';
+import {FilmInfoProps} from '../navigation/StackNavigation';
 import {searchFilms} from '../redux/actions/async/searchFilms';
 import {emptyList} from '../redux/reducers/searchReducer';
 
-const SearchScreen: React.FC<{}> = () => {
+const SearchScreen = ({navigation}: FilmInfoProps) => {
+  const pathForImage = 'https://image.tmdb.org/t/p/original';
+
   const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState<string>('');
   const searchingFilms = useAppSelector(state => state.search.item);
   const [isFocusOnSearch, setIsFocusOnSearch] = useState<boolean>(false);
-
-  const windowHeight = Dimensions.get('window').height;
+  let valueInputWithDelay = useDelay(inputValue, 1000);
 
   useEffect(() => {
-    if (inputValue !== '') {
-      dispatch(searchFilms(inputValue));
+    if (valueInputWithDelay !== '') {
+      dispatch(searchFilms(valueInputWithDelay));
     }
-  }, [dispatch, inputValue]);
+  }, [dispatch, valueInputWithDelay]);
 
   const onChangeValueSearch = (value: string): void => {
     setInputValue(value);
@@ -44,9 +47,21 @@ const SearchScreen: React.FC<{}> = () => {
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {
     const {item} = itemInfo;
+    let imageUrl: string = `${pathForImage}${item.imageUrl}`;
+
     return (
       <View style={styles.imageContainerStyle}>
-        <FilmCell item={item} />
+        <FilmCell
+          item={item}
+          imageUrl={imageUrl}
+          onPress={() =>
+            navigation.push('FilmInfoScreen', {
+              id: item.id,
+              nameButton: 'Show similar movies',
+              mediaType: item.mediaType ? item.mediaType : '',
+            })
+          }
+        />
       </View>
     );
   };
@@ -57,9 +72,7 @@ const SearchScreen: React.FC<{}> = () => {
     </View>
   );
 
-  const ItemSeparatorComponent = () => (
-    <Stack size={windowHeight < 800 ? 10 : 15} />
-  );
+  const ItemSeparatorComponent = () => <Stack size={10} />;
 
   return (
     <BackgroundForm

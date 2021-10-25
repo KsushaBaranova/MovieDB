@@ -9,9 +9,8 @@ import {
 } from 'react-native';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
 import BookmarkCell from '../components/BookmarkCell/BookmarkCell';
-import {useAppDispatch, useAppSelector} from '../hooks';
-import {FilmModel} from '../interfaces';
-import {createSession} from '../redux/actions/async/createSession';
+import {useAppDispatch, useAppSelector} from '../hooks/hooks';
+import {FilmModel} from '../interfaces/interfaces';
 import {fetchBookmarks} from '../redux/actions/async/fetchBookmarks';
 
 let bookmarksFetched = false;
@@ -21,13 +20,9 @@ const BookmarksScreen = () => {
   const dispatch = useAppDispatch();
   const bookmarks = useAppSelector(state => state.bookmarks.items);
   const sessionId = useAppSelector(state => state.bookmarks.session_id);
-  const sessionInitiated = useAppSelector(
-    state => state.bookmarks.sessionInitiated,
-  );
+  let refreshing = false;
 
-  !sessionInitiated
-    ? dispatch(createSession())
-    : !bookmarksFetched
+  !bookmarksFetched
     ? (dispatch(fetchBookmarks(sessionId)), (bookmarksFetched = true))
     : null;
 
@@ -65,6 +60,8 @@ const BookmarksScreen = () => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={() => dispatch(fetchBookmarks(sessionId))}
       />
     </BackgroundForm>
   );

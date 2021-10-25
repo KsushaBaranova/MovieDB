@@ -9,10 +9,15 @@ export enum Domain {
 export enum RequestType {
   fetchTrending,
   searchFilms,
+  fetchFilmInfo,
+  fetchTVInfo,
   createRequestToken,
   createSession,
   fetchBookmarks,
   fetchAccount,
+  fetchSimilarMovies,
+  addToBookmarks,
+  fetchAccountStates,
 }
 
 const getRequestService = (requestType: RequestType) => {
@@ -20,7 +25,11 @@ const getRequestService = (requestType: RequestType) => {
     case RequestType.fetchTrending:
       return 'trending/';
     case RequestType.searchFilms:
-      return 'search/movie';
+      return 'search/multi';
+    case RequestType.fetchFilmInfo:
+      return 'movie/';
+    case RequestType.fetchTVInfo:
+      return 'tv/';
     case RequestType.createRequestToken:
       return 'authentication/token/new';
     case RequestType.createSession:
@@ -29,6 +38,12 @@ const getRequestService = (requestType: RequestType) => {
       return 'account/';
     case RequestType.fetchAccount:
       return 'account';
+    case RequestType.fetchSimilarMovies:
+      return 'movie/';
+    case RequestType.addToBookmarks:
+      return 'account/';
+    case RequestType.fetchAccountStates:
+      return 'movie/';
     default:
       return '';
   }
@@ -39,6 +54,9 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
 
   switch (requestType) {
     case RequestType.fetchTrending:
+    case RequestType.fetchFilmInfo:
+      return serviceType + params[0];
+    case RequestType.fetchTVInfo:
       return serviceType + params[0];
     case RequestType.searchFilms:
     case RequestType.createRequestToken:
@@ -47,6 +65,12 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
       return serviceType;
     case RequestType.fetchBookmarks:
       return serviceType + params[0] + '/favorite/movies';
+    case RequestType.fetchSimilarMovies:
+      return serviceType + params[0] + '/similar';
+    case RequestType.addToBookmarks:
+      return serviceType + params[0] + '/favorite';
+    case RequestType.fetchAccountStates:
+      return serviceType + params[0] + '/account_states';
     default:
       return '';
   }
@@ -63,11 +87,16 @@ const getRequestType = (requestType: RequestType) => {
   switch (requestType) {
     case RequestType.fetchTrending:
     case RequestType.searchFilms:
+    case RequestType.fetchFilmInfo:
+    case RequestType.fetchTVInfo:
     case RequestType.createRequestToken:
     case RequestType.fetchBookmarks:
     case RequestType.fetchAccount:
+    case RequestType.fetchAccountStates:
+    case RequestType.fetchSimilarMovies:
       return 'GET';
     case RequestType.createSession:
+    case RequestType.addToBookmarks:
       return 'POST';
   }
 };

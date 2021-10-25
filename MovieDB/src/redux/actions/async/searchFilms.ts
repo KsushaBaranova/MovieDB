@@ -1,6 +1,7 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {FilmModel} from '../../../interfaces';
-import {searchApi} from '../../../services/apiFilm';
+import {Alert} from 'react-native';
+import {FilmModel} from '../../../interfaces/interfaces';
+import {searchApi} from '../../../services/network';
 
 export const searchFilms = createAsyncThunk<Array<FilmModel>, string>(
   'search/searchFilms',
@@ -13,12 +14,19 @@ export const searchFilms = createAsyncThunk<Array<FilmModel>, string>(
       return results.map(item => ({
         id: item.id,
         imageUrl: item.poster_path,
-        name: item.title,
+        name: item.title || item.name,
         description: item.overview,
+        mediaType: item.media_type,
       }));
     } catch (error) {
-      console.log('searchFilms error: ', error);
-      return thunkApi.rejectWithValue(error);
+      console.log('Search films error: ', error);
+      return thunkApi.rejectWithValue(
+        Alert.alert(
+          'Sorry, there was an error. You cannot use search.',
+          error as string,
+          [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+        ),
+      );
     }
   },
 );
