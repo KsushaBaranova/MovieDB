@@ -10,15 +10,16 @@ export const fetchTVInfo = createAsyncThunk<InfoFilmModel, string[]>(
       let append = {
         append_to_response: 'videos',
       };
-      const response = await infoTVApi.fetchTVInfo(filmId, append);
 
       let account_state;
       if (filmId[1]) {
-        account_state = await accountStateApi.fetchAccountState(
+        account_state = await accountStateApi.fetchAccountStateTV(
           filmId,
           filmId[1],
         );
       }
+
+      const response = await infoTVApi.fetchTVInfo(filmId, append);
 
       return {
         id: response.id,

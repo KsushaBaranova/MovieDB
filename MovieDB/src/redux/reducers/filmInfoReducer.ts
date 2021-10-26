@@ -29,7 +29,11 @@ const initialState: FilmInfoState = {
 export const infoSlice = createSlice({
   name: 'info',
   initialState,
-  reducers: {},
+  reducers: {
+    updateFavoriteState(state, action) {
+      state.item.account_state!.favorite = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchFilmInfo.fulfilled, (state, action) => {
       state.item = action.payload;
@@ -46,4 +50,5 @@ export const infoSlice = createSlice({
   },
 });
 
+export const {updateFavoriteState} = infoSlice.actions;
 export default infoSlice.reducer;

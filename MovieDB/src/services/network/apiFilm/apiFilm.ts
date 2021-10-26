@@ -56,6 +56,15 @@ class FilmApi<T> implements FilmApiInterface<T> {
       params: [account_id],
     });
   }
+  async fetchBookmarksTV(session_id: string, account_id: string): Promise<T> {
+    return request<T>(RequestType.fetchBookmarksTV, {
+      token: this.token,
+      urlParams: {
+        session_id: session_id,
+      },
+      params: [account_id],
+    });
+  }
 
   async fetchAccount(id: string): Promise<T> {
     return request<T>(RequestType.fetchAccount, {
@@ -86,16 +95,51 @@ class FilmApi<T> implements FilmApiInterface<T> {
       params: [movie_id],
     });
   }
-
-  async addBookmark(movie_id: string, media_type: string): Promise<T> {
-    return request<T>(RequestType.fetchSimilarMovies, {
+  async fetchSimilarTV(movie_id: string): Promise<T> {
+    return request<T>(RequestType.fetchSimilarTV, {
       token: this.token,
+      params: [movie_id],
+    });
+  }
+
+  async addBookmark(
+    movie_id: string,
+    media_type: string,
+    accountId: string,
+    session_id: string,
+  ): Promise<T> {
+    return request<T>(RequestType.addToBookmarks, {
+      token: this.token,
+      urlParams: {session_id: session_id},
       body: {media_type: media_type, media_id: movie_id, favorite: true},
+      params: [accountId],
+    });
+  }
+
+  async removeBookmark(
+    movie_id: string,
+    media_type: string,
+    accountId: string,
+    session_id: string,
+  ): Promise<T> {
+    return request<T>(RequestType.addToBookmarks, {
+      token: this.token,
+      urlParams: {session_id: session_id},
+      body: {media_type: media_type, media_id: movie_id, favorite: false},
+      params: [accountId],
     });
   }
 
   async fetchAccountState(filmId: string[], session_id: string): Promise<T> {
-    return request<T>(RequestType.fetchFilmInfo, {
+    return request<T>(RequestType.fetchAccountStates, {
+      token: this.token,
+      params: filmId,
+      urlParams: {session_id: session_id},
+    });
+  }
+
+  async fetchAccountStateTV(filmId: string[], session_id: string): Promise<T> {
+    return request<T>(RequestType.fetchAccountStatesTV, {
       token: this.token,
       params: filmId,
       urlParams: {session_id: session_id},
