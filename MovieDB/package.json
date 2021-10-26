@@ -18,6 +18,7 @@
     "npm": "^8.1.0",
     "react": "17.0.2",
     "react-native": "0.66.0",
+    "react-native-animated-pagination-dots": "^0.1.72",
     "react-native-dropdown-picker": "^5.1.28",
     "react-native-geolocation-service": "^5.3.0-beta.3",
     "react-native-inappbrowser-reborn": "^3.6.3",

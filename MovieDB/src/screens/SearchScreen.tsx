@@ -55,7 +55,7 @@ const SearchScreen = ({navigation}: FilmInfoProps) => {
           item={item}
           imageUrl={imageUrl}
           onPress={() =>
-            navigation.push('FilmInfoScreen', {
+            navigation.navigate('FilmInfoScreen', {
               id: item.id,
               nameButton: 'Show similar movies',
               mediaType: item.mediaType ? item.mediaType : '',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   ListRenderItemInfo,
   View,
@@ -11,28 +11,40 @@ import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
 import BookmarkCell from '../components/BookmarkCell/BookmarkCell';
 import {useAppDispatch, useAppSelector} from '../hooks/hooks';
 import {FilmModel} from '../interfaces/interfaces';
+import {BookmarkScreenProps} from '../navigation/StackNavigation';
 import {fetchBookmarks} from '../redux/actions/async/fetchBookmarks';
 
-let bookmarksFetched = false;
 const deviceWidth = Dimensions.get('window').width;
 
-const BookmarksScreen = () => {
+const BookmarksScreen = ({navigation}: BookmarkScreenProps) => {
   const dispatch = useAppDispatch();
   const bookmarks = useAppSelector(state => state.bookmarks.items);
   const sessionId = useAppSelector(state => state.bookmarks.session_id);
+  const accountId = useAppSelector(state => state.bookmarks.account_id);
+  const bookmarkState = useAppSelector(
+    state => state.info.item.account_state?.favorite,
+  );
   let refreshing = false;
 
-  !bookmarksFetched
-    ? (dispatch(fetchBookmarks(sessionId)), (bookmarksFetched = true))
-    : null;
+  useEffect(() => {
+    dispatch(fetchBookmarks([sessionId, accountId]));
+  }, [accountId, dispatch, sessionId, bookmarkState]);
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {
     const {item} = itemInfo;
+
     return (
       <BookmarkCell
         item={item}
         itemIndex={itemInfo.index + 1}
         listLength={bookmarks.length}
+        onPress={() =>
+          navigation.navigate('FilmInfoScreen', {
+            id: item.id,
+            nameButton: '',
+            mediaType: item.mediaType!,
+          })
+        }
       />
     );
   };
@@ -61,7 +73,8 @@ const BookmarksScreen = () => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         refreshing={refreshing}
-        onRefresh={() => dispatch(fetchBookmarks(sessionId))}
+        onRefresh={() => dispatch(fetchBookmarks([sessionId, accountId]))}
+        initialNumToRender={3}
       />
     </BackgroundForm>
   );

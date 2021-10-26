@@ -45,6 +45,9 @@ export const infoSlice = createSlice({
         return {payload: text || ''};
       },
     },
+    updateFavoriteState(state, action) {
+      state.item.account_state!.favorite = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchFilmInfo.fulfilled, (state, action) => {
@@ -76,5 +79,5 @@ export const infoSlice = createSlice({
   },
 });
 
-export const {setScreen} = infoSlice.actions;
+export const {setScreen, updateFavoriteState} = infoSlice.actions;
 export default infoSlice.reducer;

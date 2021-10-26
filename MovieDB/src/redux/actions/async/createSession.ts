@@ -19,7 +19,7 @@ export const createSession = createAsyncThunk<string, string>(
       console.log('Create session error: ', error);
 
       return thunkApi.rejectWithValue(
-        Alert.alert('Unfortunately, something went wrong:', error as string, [
+        Alert.alert('Sorry, we have authorization issue.', error as string, [
           {text: 'OK', onPress: () => console.log('OK Pressed')},
         ]),
       );

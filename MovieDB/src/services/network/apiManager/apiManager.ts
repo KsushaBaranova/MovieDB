@@ -16,8 +16,11 @@ export enum RequestType {
   fetchBookmarks,
   fetchAccount,
   fetchSimilarMovies,
+  fetchSimilarTV,
   addToBookmarks,
   fetchAccountStates,
+  fetchAccountStatesTV,
+  fetchBookmarksTV,
 }
 
 const getRequestService = (requestType: RequestType) => {
@@ -35,15 +38,20 @@ const getRequestService = (requestType: RequestType) => {
     case RequestType.createSession:
       return 'authentication/session/new';
     case RequestType.fetchBookmarks:
+    case RequestType.fetchBookmarksTV:
       return 'account/';
     case RequestType.fetchAccount:
       return 'account';
     case RequestType.fetchSimilarMovies:
       return 'movie/';
+    case RequestType.fetchSimilarTV:
+      return 'tv/';
     case RequestType.addToBookmarks:
       return 'account/';
     case RequestType.fetchAccountStates:
       return 'movie/';
+    case RequestType.fetchAccountStatesTV:
+      return 'tv/';
     default:
       return '';
   }
@@ -65,11 +73,16 @@ const getRequestString = (requestType: RequestType, params: string[]) => {
       return serviceType;
     case RequestType.fetchBookmarks:
       return serviceType + params[0] + '/favorite/movies';
+    case RequestType.fetchBookmarksTV:
+      return serviceType + params[0] + '/favorite/tv';
     case RequestType.fetchSimilarMovies:
+      return serviceType + params[0] + '/similar';
+    case RequestType.fetchSimilarTV:
       return serviceType + params[0] + '/similar';
     case RequestType.addToBookmarks:
       return serviceType + params[0] + '/favorite';
     case RequestType.fetchAccountStates:
+    case RequestType.fetchAccountStatesTV:
       return serviceType + params[0] + '/account_states';
     default:
       return '';
@@ -91,9 +104,12 @@ const getRequestType = (requestType: RequestType) => {
     case RequestType.fetchTVInfo:
     case RequestType.createRequestToken:
     case RequestType.fetchBookmarks:
+    case RequestType.fetchBookmarksTV:
     case RequestType.fetchAccount:
     case RequestType.fetchAccountStates:
+    case RequestType.fetchAccountStatesTV:
     case RequestType.fetchSimilarMovies:
+    case RequestType.fetchSimilarTV:
       return 'GET';
     case RequestType.createSession:
     case RequestType.addToBookmarks:

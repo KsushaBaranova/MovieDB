@@ -14,11 +14,12 @@ const SimilarMoviesScreen = ({route, navigation}: SimilarMoviesProps) => {
   const similarFilms = useAppSelector(state => state.similar.items);
   const numColumns = 2;
   const itemId = route.params.id;
+  const mediaType = route.params.mediaType;
   let refreshing = false;
 
   useEffect(() => {
-    dispatch(fetchSimilarMovies(itemId)); //hardcoded value to change for movie id
-  }, [dispatch, itemId]);
+    dispatch(fetchSimilarMovies([itemId, mediaType]));
+  }, [dispatch, itemId, mediaType]);
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {
     const pathForImage = 'https://image.tmdb.org/t/p/original';
@@ -33,8 +34,8 @@ const SimilarMoviesScreen = ({route, navigation}: SimilarMoviesProps) => {
           onPress={() =>
             navigation.push('FilmInfoScreen', {
               id: item.id,
-              nameButton: 'Add to bookmarks',
-              mediaType: item.mediaType ? item.mediaType : '',
+              nameButton: '',
+              mediaType: mediaType,
               fromScreen: 'similar',
             })
           }
@@ -66,7 +67,7 @@ const SimilarMoviesScreen = ({route, navigation}: SimilarMoviesProps) => {
         ListEmptyComponent={ListEmptyComponent}
         ItemSeparatorComponent={ItemSeparatorComponent}
         refreshing={refreshing}
-        onRefresh={() => dispatch(fetchSimilarMovies(itemId))}
+        onRefresh={() => dispatch(fetchSimilarMovies([itemId, mediaType]))}
       />
     </BackgroundForm>
   );

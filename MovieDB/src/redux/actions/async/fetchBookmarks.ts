@@ -1,28 +1,43 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {Alert} from 'react-native';
-import {useAppSelector} from '../../../hooks/hooks';
 import {FilmModel} from '../../../interfaces/interfaces';
 import {bookmarksApi} from '../../../services/network';
 
-export const fetchBookmarks = createAsyncThunk<Array<FilmModel>, string>(
+export const fetchBookmarks = createAsyncThunk<Array<FilmModel>, string[]>(
   'bookmarks/fetchBookmarks',
-  async (session_id, thunkApi) => {
+  async ([session_id, account_id], thunkApi) => {
     try {
-      const accountId = useAppSelector(state => state.bookmarks.account_id);
-
-      const bookmarks = await bookmarksApi.fetchBookmarks(
+      const bookmarksMovie = await bookmarksApi.fetchBookmarks(
         session_id,
-        accountId,
+        account_id,
       );
-      if (!bookmarks.results) {
-        throw bookmarks;
+      if (!bookmarksMovie.results) {
+        throw bookmarksMovie;
       }
-      return bookmarks.results.map(item => ({
+      const bookmarksTV = await bookmarksApi.fetchBookmarksTV(
+        session_id,
+        account_id,
+      );
+      if (!bookmarksTV.results) {
+        throw bookmarksTV;
+      }
+
+      const bookmarksMovieMapped = bookmarksMovie.results.map(item => ({
         id: item.id,
         imageUrl: item.poster_path,
         name: item.title || item.name,
         description: item.overview,
+        mediaType: 'movie',
       }));
+      const bookmarksTVMapped = bookmarksTV.results.map(item => ({
+        id: item.id,
+        imageUrl: item.poster_path,
+        name: item.title || item.name,
+        description: item.overview,
+        mediaType: 'tv',
+      }));
+
+      return [...bookmarksMovieMapped, ...bookmarksTVMapped];
     } catch (error) {
       console.log('Fetching bookmarks error: ', error);
       return thunkApi.rejectWithValue(

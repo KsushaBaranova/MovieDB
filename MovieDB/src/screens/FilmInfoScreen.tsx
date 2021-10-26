@@ -1,11 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  Dimensions,
-  // Platform,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Dimensions, ScrollView, TouchableOpacity, View} from 'react-native';
 import {StyleSheet, Text} from 'react-native';
 import WebView from 'react-native-webview';
 import BackgroundForm from '../components/BackgroundForm/BackgroundForm';
@@ -13,22 +7,10 @@ import {useAppDispatch, useAppSelector} from '../hooks/hooks';
 import {fetchFilmInfo} from '../redux/actions/async/fetchFilmInfo';
 import {fetchTVInfo} from '../redux/actions/async/fetchTVInfo';
 import Information from '../components/Information/Information';
-// import InAppBrowser from 'react-native-inappbrowser-reborn';
 import {bookmarksApi} from '../services/network';
 import {FilmInfoProps} from '../navigation/StackNavigation';
 import {setScreen} from '../redux/reducers/filmInfoReducer';
-
-// const tokenConfirmationRequest = async (token: string) => {
-//   Platform.OS === 'ios'
-//     ? await InAppBrowser.openAuth(
-//         `https://www.themoviedb.org/authenticate/${token}`,
-//         '',
-//       )
-//     : await InAppBrowser.open(
-//         `https://www.themoviedb.org/authenticate/${token}`,
-//       );
-//   return token;
-// };
+import {updateFavoriteState} from '../redux/reducers/filmInfoReducer';
 
 const FilmInfoScreen = ({navigation, route}: FilmInfoProps) => {
   let {id, nameButton, mediaType, fromScreen} = route.params;
@@ -39,18 +21,10 @@ const FilmInfoScreen = ({navigation, route}: FilmInfoProps) => {
   const infoSearch = useAppSelector(state => state.info.itemSearch);
   const infoSimilar = useAppSelector(state => state.info.itemSimilar);
 
-  // const sessionInitiated = useAppSelector(
-  //   state => state.bookmarks.sessionInitiated,
-  // );
-
-  // // !sessionInitiated
-  // //   ? dispatch(createSessionToken())
-  // //       .then(response => tokenConfirmationRequest(response.payload as string))
-  // //       .then(response => {
-  // //         dispatch(createSession(response));
-  // //       })
-  // //       .then(() => dispatch(fetchAccount(sessionId)))
-  // //   : null;
+  const accountId = useAppSelector(state => state.bookmarks.account_id);
+  const bookmarkState = useAppSelector(
+    state => state.info.item.account_state?.favorite,
+  );
 
   useEffect(() => {
     if (mediaType === 'tv') {
@@ -99,8 +73,30 @@ const FilmInfoScreen = ({navigation, route}: FilmInfoProps) => {
           <View style={styles.viewButtonStyle}>
             <TouchableOpacity
               style={styles.buttonStyle}
-              onPress={() => bookmarksApi.addBookmark(info.id, mediaType)}>
-              <Text style={styles.textButtonStyle}>{nameButton}</Text>
+              onPress={() =>
+                !bookmarkState
+                  ? (bookmarksApi.addBookmark(
+                      info.id,
+                      mediaType,
+                      accountId,
+                      sessionId,
+                    ),
+                    dispatch(
+                      updateFavoriteState(!info.account_state!.favorite),
+                    ))
+                  : (bookmarksApi.removeBookmark(
+                      info.id,
+                      mediaType,
+                      accountId,
+                      sessionId,
+                    ),
+                    dispatch(
+                      updateFavoriteState(!info.account_state!.favorite),
+                    ))
+              }>
+              <Text style={styles.textButtonStyle}>
+                {!bookmarkState ? 'Add to bookmarks' : 'Remove from bookmarks'}
+              </Text>
             </TouchableOpacity>
           </View>
         ) : null}
@@ -108,10 +104,11 @@ const FilmInfoScreen = ({navigation, route}: FilmInfoProps) => {
         {nameButton === 'Show similar movies' ? (
           <View style={styles.viewButtonStyle}>
             <TouchableOpacity
-              style={styles.buttonStyle}
+              style={styles.similarButtonStyle}
               onPress={() =>
                 navigation.push('SimilarMoviesScreen', {
                   id: id,
+                  mediaType: mediaType,
                 })
               }>
               <Text style={styles.textButtonStyle}>{nameButton}</Text>
@@ -161,6 +158,9 @@ const styles = StyleSheet.create({
   },
   textButtonStyle: {
     fontSize: 15,
+    fontWeight: '600',
+    color: 'white',
+    textAlignVertical: 'center',
   },
   viewButtonStyle: {
     flex: 1,
@@ -169,6 +169,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignSelf: 'center',
     justifyContent: 'flex-end',
+  },
+  similarButtonStyle: {
+    height: 35,
+    width: 220,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(51, 122, 240, 0.8)',
+    borderRadius: 20,
+    borderWidth: 3,
+    borderColor: 'rgba(51, 122, 240, 0.6)',
   },
 });
 

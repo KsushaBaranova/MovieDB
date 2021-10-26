@@ -9,7 +9,6 @@ import TrendingScreen from '../screens/TrendingScreen';
 import BookmarksScreen from '../screens/BookmarksScreen';
 import SimilarMoviesScreen from '../screens/SimilarMoviesScreen';
 import {Image, Platform, StyleSheet, TouchableOpacity} from 'react-native';
-import {StackActions} from '@react-navigation/routers';
 
 export type RootStackParamList = {
   FilmInfoScreen: {
@@ -21,7 +20,7 @@ export type RootStackParamList = {
   TrendingScreen: {};
   SearchScreen: {};
   BookmarksScreen: {};
-  SimilarMoviesScreen: {id: string};
+  SimilarMoviesScreen: {id: string; mediaType: string};
 };
 export type FilmInfoProps = NativeStackScreenProps<
   RootStackParamList,
@@ -35,9 +34,13 @@ type SearchScreenProps = NativeStackScreenProps<
   RootStackParamList,
   'SearchScreen'
 >;
-type TrendingScreenProps = NativeStackScreenProps<
+export type TrendingScreenProps = NativeStackScreenProps<
   RootStackParamList,
   'TrendingScreen'
+>;
+export type BookmarkScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'BookmarksScreen'
 >;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -55,7 +58,7 @@ export const TrendingStackScreen = ({navigation}: TrendingScreenProps) => {
               headerBackVisible: false,
               headerRight: () => (
                 <TouchableOpacity
-                  onPress={() => navigation.dispatch(StackActions.pop(1))}>
+                  onPress={() => navigation.navigate('TrendingScreen', {})}>
                   <Image
                     source={require('../../image/back.png')}
                     style={backButton.container}
@@ -87,8 +90,7 @@ export const SearchStackScreen = ({navigation}: SearchScreenProps) => {
               headerTransparent: true,
               headerBackVisible: false,
               headerRight: () => (
-                <TouchableOpacity
-                  onPress={() => navigation.dispatch(StackActions.pop(1))}>
+                <TouchableOpacity onPress={() => navigation.pop()}>
                   <Image
                     source={require('../../image/back.png')}
                     style={backButton.container}
@@ -112,10 +114,34 @@ export const SearchStackScreen = ({navigation}: SearchScreenProps) => {
   );
 };
 
-export const BookmarksStackScreen = () => {
+export const BookmarksStackScreen = ({navigation}: BookmarkScreenProps) => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="BookmarksScreen" component={BookmarksScreen} />
+    <Stack.Navigator
+      screenOptions={
+        Platform.OS === 'ios'
+          ? {
+              headerShown: true,
+              headerBackTitleVisible: false,
+              headerTitle: '',
+              headerTransparent: true,
+              headerBackVisible: false,
+              headerRight: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('BookmarksScreen', {})}>
+                  <Image
+                    source={require('../../image/back.png')}
+                    style={backButton.container}
+                  />
+                </TouchableOpacity>
+              ),
+            }
+          : {headerShown: false}
+      }>
+      <Stack.Screen
+        name="BookmarksScreen"
+        component={BookmarksScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen name="FilmInfoScreen" component={FilmInfoScreen} />
     </Stack.Navigator>
   );
