@@ -14,6 +14,7 @@ export interface FilmInfoState {
   itemTrend: InfoFilmModel;
   itemSearch: InfoFilmModel;
   itemSimilar: InfoFilmModel;
+  itemBookmarks: InfoFilmModel;
   fromScreen?: string;
   loading: boolean;
   error: string | undefined;

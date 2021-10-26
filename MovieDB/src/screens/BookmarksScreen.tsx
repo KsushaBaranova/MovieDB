@@ -21,14 +21,32 @@ const BookmarksScreen = ({navigation}: BookmarkScreenProps) => {
   const bookmarks = useAppSelector(state => state.bookmarks.items);
   const sessionId = useAppSelector(state => state.bookmarks.session_id);
   const accountId = useAppSelector(state => state.bookmarks.account_id);
-  const bookmarkState = useAppSelector(
-    state => state.info.item.account_state?.favorite,
-  );
   let refreshing = false;
+
+  const bookmarkStateTrend = useAppSelector(
+    state => state.info.itemTrend.account_state?.favorite,
+  );
+  const bookmarkStateSearch = useAppSelector(
+    state => state.info.itemSearch.account_state?.favorite,
+  );
+  const bookmarkStateSimilar = useAppSelector(
+    state => state.info.itemSimilar.account_state?.favorite,
+  );
+  const bookmarkStateBookmark = useAppSelector(
+    state => state.info.itemBookmarks.account_state?.favorite,
+  );
 
   useEffect(() => {
     dispatch(fetchBookmarks([sessionId, accountId]));
-  }, [accountId, dispatch, sessionId, bookmarkState]);
+  }, [
+    accountId,
+    dispatch,
+    sessionId,
+    bookmarkStateTrend,
+    bookmarkStateSearch,
+    bookmarkStateSimilar,
+    bookmarkStateBookmark,
+  ]);
 
   const renderItem = (itemInfo: ListRenderItemInfo<FilmModel>) => {
     const {item} = itemInfo;
@@ -43,6 +61,7 @@ const BookmarksScreen = ({navigation}: BookmarkScreenProps) => {
             id: item.id,
             nameButton: '',
             mediaType: item.mediaType!,
+            fromScreen: 'bookmarks',
           })
         }
       />
@@ -66,6 +85,7 @@ const BookmarksScreen = ({navigation}: BookmarkScreenProps) => {
         keyExtractor={(_, index) => String(index)}
         style={styles.flatListStyle}
         data={bookmarks}
+        extraData={bookmarks}
         renderItem={renderItem}
         ListEmptyComponent={ListEmptyComponent}
         ItemSeparatorComponent={ItemSeparatorComponent}

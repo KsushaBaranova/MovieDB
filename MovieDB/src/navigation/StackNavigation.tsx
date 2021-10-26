@@ -15,7 +15,7 @@ export type RootStackParamList = {
     id: string;
     nameButton: string;
     mediaType: string;
-    fromScreen: string;
+    fromScreen?: string;
   };
   TrendingScreen: {};
   SearchScreen: {};

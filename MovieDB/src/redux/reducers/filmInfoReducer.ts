@@ -28,6 +28,7 @@ const initialState: FilmInfoState = {
   itemTrend: Item(),
   itemSearch: Item(),
   itemSimilar: Item(),
+  itemBookmarks: Item(),
   fromScreen: '',
   loading: false,
   error: undefined,
@@ -46,7 +47,20 @@ export const infoSlice = createSlice({
       },
     },
     updateFavoriteState(state, action) {
-      state.item.account_state!.favorite = action.payload;
+      switch (state.fromScreen) {
+        case 'trend':
+          state.itemTrend.account_state!.favorite = action.payload;
+          break;
+        case 'search':
+          state.itemSearch.account_state!.favorite = action.payload;
+          break;
+        case 'similar':
+          state.itemSimilar.account_state!.favorite = action.payload;
+          break;
+        case 'bookmarks':
+          state.itemBookmarks.account_state!.favorite = action.payload;
+          break;
+      }
     },
   },
   extraReducers: builder => {
@@ -61,6 +75,9 @@ export const infoSlice = createSlice({
         case 'similar':
           state.itemSimilar = action.payload;
           break;
+        case 'bookmarks':
+          state.itemBookmarks = action.payload;
+          break;
       }
     });
     builder.addCase(fetchTVInfo.fulfilled, (state, action) => {
@@ -73,6 +90,9 @@ export const infoSlice = createSlice({
           break;
         case 'similar':
           state.itemSimilar = action.payload;
+          break;
+        case 'bookmarks':
+          state.itemBookmarks = action.payload;
           break;
       }
     });

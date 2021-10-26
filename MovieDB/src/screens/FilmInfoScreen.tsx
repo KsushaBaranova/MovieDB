@@ -20,11 +20,9 @@ const FilmInfoScreen = ({navigation, route}: FilmInfoProps) => {
   const infoTrend = useAppSelector(state => state.info.itemTrend);
   const infoSearch = useAppSelector(state => state.info.itemSearch);
   const infoSimilar = useAppSelector(state => state.info.itemSimilar);
+  const infoBookmarks = useAppSelector(state => state.info.itemBookmarks);
 
   const accountId = useAppSelector(state => state.bookmarks.account_id);
-  const bookmarkState = useAppSelector(
-    state => state.info.item.account_state?.favorite,
-  );
 
   useEffect(() => {
     if (mediaType === 'tv') {
@@ -43,9 +41,13 @@ const FilmInfoScreen = ({navigation, route}: FilmInfoProps) => {
       ? infoTrend
       : fromScreen === 'search'
       ? infoSearch
-      : infoSimilar;
+      : fromScreen === 'similar'
+      ? infoSimilar
+      : infoBookmarks;
 
   const videoUrl = `https://www.youtube.com/embed/${info.videos?.key}`;
+
+  let bookmarkState = info.account_state?.favorite;
 
   return (
     <BackgroundForm
@@ -175,6 +177,7 @@ const styles = StyleSheet.create({
     width: 220,
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'rgba(51, 122, 240, 0.8)',
     borderRadius: 20,
     borderWidth: 3,
