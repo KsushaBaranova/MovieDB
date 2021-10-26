@@ -57,6 +57,7 @@ const TrendingScreen = ({navigation}: FilmInfoProps) => {
               id: item.id,
               nameButton: 'Add to bookmarks',
               mediaType: valueMediaType,
+              fromScreen: 'trend',
             })
           }
         />

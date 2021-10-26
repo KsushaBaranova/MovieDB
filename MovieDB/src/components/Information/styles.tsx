@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   viewTitleAndYearStyle: {
     flexDirection: 'row',
-    flexWrap: 'nowrap',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
   },

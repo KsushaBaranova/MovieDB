@@ -35,6 +35,7 @@ const SimilarMoviesScreen = ({route, navigation}: SimilarMoviesProps) => {
               id: item.id,
               nameButton: 'Add to bookmarks',
               mediaType: item.mediaType ? item.mediaType : '',
+              fromScreen: 'similar',
             })
           }
         />

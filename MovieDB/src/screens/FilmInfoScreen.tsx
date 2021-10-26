@@ -16,6 +16,7 @@ import Information from '../components/Information/Information';
 // import InAppBrowser from 'react-native-inappbrowser-reborn';
 import {bookmarksApi} from '../services/network';
 import {FilmInfoProps} from '../navigation/StackNavigation';
+import {setScreen} from '../redux/reducers/filmInfoReducer';
 
 // const tokenConfirmationRequest = async (token: string) => {
 //   Platform.OS === 'ios'
@@ -30,11 +31,14 @@ import {FilmInfoProps} from '../navigation/StackNavigation';
 // };
 
 const FilmInfoScreen = ({navigation, route}: FilmInfoProps) => {
-  let {id, nameButton, mediaType} = route.params;
+  let {id, nameButton, mediaType, fromScreen} = route.params;
 
   const dispatch = useAppDispatch();
-  const info = useAppSelector(state => state.info.item);
   const sessionId = useAppSelector(state => state.bookmarks.session_id);
+  const infoTrend = useAppSelector(state => state.info.itemTrend);
+  const infoSearch = useAppSelector(state => state.info.itemSearch);
+  const infoSimilar = useAppSelector(state => state.info.itemSimilar);
+
   // const sessionInitiated = useAppSelector(
   //   state => state.bookmarks.sessionInitiated,
   // );
@@ -56,6 +60,19 @@ const FilmInfoScreen = ({navigation, route}: FilmInfoProps) => {
     }
   }, [dispatch, id, mediaType, sessionId]);
 
+  useEffect(() => {
+    dispatch(setScreen(fromScreen));
+  }, [dispatch, fromScreen]);
+
+  const info =
+    fromScreen === 'trend'
+      ? infoTrend
+      : fromScreen === 'search'
+      ? infoSearch
+      : infoSimilar;
+
+  const videoUrl = `https://www.youtube.com/embed/${info.videos?.key}`;
+
   return (
     <BackgroundForm
       headerProps={{
@@ -71,7 +88,7 @@ const FilmInfoScreen = ({navigation, route}: FilmInfoProps) => {
             style={styles.viewVideoStyle}
             containerStyle={styles.viewVideoStyle}
             source={{
-              uri: `https://www.youtube.com/embed/${info.videos?.key}`,
+              uri: videoUrl,
             }}
           />
         </View>

@@ -11,7 +11,10 @@ export interface FilmListState {
 }
 
 export interface FilmInfoState {
-  item: InfoFilmModel;
+  itemTrend: InfoFilmModel;
+  itemSearch: InfoFilmModel;
+  itemSimilar: InfoFilmModel;
+  fromScreen?: string;
   loading: boolean;
   error: string | undefined;
 }

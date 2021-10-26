@@ -1,10 +1,10 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {FilmInfoState} from '../../interfaces/interfaces';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {FilmInfoState, InfoFilmModel} from '../../interfaces/interfaces';
 import {fetchFilmInfo} from '../actions/async/fetchFilmInfo';
 import {fetchTVInfo} from '../actions/async/fetchTVInfo';
 
-const initialState: FilmInfoState = {
-  item: {
+function Item(): InfoFilmModel {
+  return {
     id: '',
     name: '',
     description: '',
@@ -21,7 +21,14 @@ const initialState: FilmInfoState = {
       },
       watchlist: false,
     },
-  },
+  };
+}
+
+const initialState: FilmInfoState = {
+  itemTrend: Item(),
+  itemSearch: Item(),
+  itemSimilar: Item(),
+  fromScreen: '',
   loading: false,
   error: undefined,
 };
@@ -29,21 +36,45 @@ const initialState: FilmInfoState = {
 export const infoSlice = createSlice({
   name: 'info',
   initialState,
-  reducers: {},
+  reducers: {
+    setScreen: {
+      reducer: (state, action: PayloadAction<string>) => {
+        state.fromScreen = action.payload;
+      },
+      prepare: (text?: string) => {
+        return {payload: text || ''};
+      },
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchFilmInfo.fulfilled, (state, action) => {
-      state.item = action.payload;
-    });
-    builder.addCase(fetchFilmInfo.rejected, (state, {error}) => {
-      state.error = error.message;
+      switch (state.fromScreen) {
+        case 'trend':
+          state.itemTrend = action.payload;
+          break;
+        case 'search':
+          state.itemSearch = action.payload;
+          break;
+        case 'similar':
+          state.itemSimilar = action.payload;
+          break;
+      }
     });
     builder.addCase(fetchTVInfo.fulfilled, (state, action) => {
-      state.item = action.payload;
-    });
-    builder.addCase(fetchTVInfo.rejected, (state, {error}) => {
-      state.error = error.message;
+      switch (state.fromScreen) {
+        case 'trend':
+          state.itemTrend = action.payload;
+          break;
+        case 'search':
+          state.itemSearch = action.payload;
+          break;
+        case 'similar':
+          state.itemSimilar = action.payload;
+          break;
+      }
     });
   },
 });
 
+export const {setScreen} = infoSlice.actions;
 export default infoSlice.reducer;

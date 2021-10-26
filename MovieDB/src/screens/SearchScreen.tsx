@@ -59,6 +59,7 @@ const SearchScreen = ({navigation}: FilmInfoProps) => {
               id: item.id,
               nameButton: 'Show similar movies',
               mediaType: item.mediaType ? item.mediaType : '',
+              fromScreen: 'search',
             })
           }
         />
