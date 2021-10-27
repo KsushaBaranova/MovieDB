@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     fontSize: 16,
     lineHeight: 18,
+    marginBottom: 20,
     color: 'rgb(58,77,95)',
   },
   textTitleStyle: {
